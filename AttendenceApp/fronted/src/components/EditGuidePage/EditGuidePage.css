@@ -1,0 +1,59 @@
+.edit-guide-page {
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #0052cc, #4a90e2, #003d99);
+    padding: 20px;
+    border-radius: 12px;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+  
+  .guides-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: rgba(255, 253, 253, 0.935);
+    border-radius: 12px;
+    border: 1px solid #4a90e2;
+  }
+  
+  .guide-card {
+    width: 120px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .guide-card.selected {
+    border-color: #50e3c2;
+    background-color: rgba(80, 227, 194, 0.2);
+  }
+  
+  .guide-card:hover {
+    box-shadow: 0 0 10px rgba(80, 227, 194, 0.5);
+  }
+  
+  .guide-image1 {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* שאר העיצוב יישאר זהה ל-EditRecipientPage */
+  

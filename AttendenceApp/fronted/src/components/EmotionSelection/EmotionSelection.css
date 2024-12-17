@@ -1,0 +1,35 @@
+.emotion-selection {
+  text-align: center;
+  padding: 20px;
+  color: black !important;
+}
+
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px; /* הגדלת המרווח בין האימוג'ים */
+  justify-items: center;
+}
+.emotion-selection h2 {
+  color: black !important; /* הבטחת הצבע השחור */
+  font-size: 2em; /* לדוגמה: שינוי גודל הכותרת */
+  margin-bottom: 20px; /* ריווח תחתון */
+}
+
+.emotion-option {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2em; /* גודל הטקסט */
+  transition: transform 0.3s;
+}
+
+.emotion-option:hover {
+  transform: scale(1.1);
+}
+
+.emotion-icon {
+  font-size: 4em; /* גודל האימוג'ים */
+  margin-bottom: 15px; /* רווח בין האימוג'י לטקסט */
+}

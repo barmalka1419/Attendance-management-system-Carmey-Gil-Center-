@@ -1,0 +1,91 @@
+.team-login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  padding: 20px;
+  color: #ffffff;
+}
+
+h2 {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  color: #333333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.team-login-page .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #000000; /* צבע שחור לטקסט */
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #1565c0;
+  transform: translateY(-3px);
+}
+
+.error-message {
+  color: red;
+  margin-top: 15px;
+  font-size: 1em;
+  text-align: center;
+}
+
+/* עיצוב המקלדת */
+.simple-keyboard {
+  font-size: 1.5em;
+  color: #333333;
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.simple-keyboard .hg-button {
+  background-color: #e0e0e0;
+  color: #000000;
+  border: 1px solid #ccc;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.simple-keyboard .hg-button:hover {
+  background-color: #d0d0d0;
+}

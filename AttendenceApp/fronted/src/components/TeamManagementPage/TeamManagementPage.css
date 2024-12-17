@@ -1,0 +1,58 @@
+.team-management-page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_DQCIBUIfMoGnw7IZxQE7SOWCFCSpv_63aw&s') no-repeat center center fixed; /* רקע מקצועי */
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    background-color: #1976d2;
+    color: white;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.team-buttons button {
+    width: 300px;
+    height: 80px;
+    font-size: 18px;
+    color: white;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.team-buttons button:hover {
+    background-color: #1976d2;
+    transform: scale(1.1);
+}
+
+.team-buttons button:active {
+    background-color: #0d47a1;
+}

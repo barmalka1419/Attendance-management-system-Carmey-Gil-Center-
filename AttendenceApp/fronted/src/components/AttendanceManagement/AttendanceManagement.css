@@ -1,0 +1,545 @@
+.attendance-management {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+.patient-selection {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.patient-selection ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.patient-selection li {
+  padding: 15px;
+  margin: 5px 0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.patient-selection li:hover {
+  background-color: #d7e9f7;
+}
+
+.attendance-details {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.attendance-details h2 {
+  margin-top: 0;
+}
+
+.attendance-details ul {
+  list-style-type: none;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.attendance-details li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.attendance-details button {
+  font-size: 1em;
+  padding: 5px 10px; /* התאמת ריווח פנימי */
+  min-width: 100px;
+  border-radius: 8px;
+  margin: 0 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.attendance-details button:hover {
+  background-color: #d7e9f7;
+  transform: scale(1.05);
+}
+
+.record-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.record-header {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.record-details {
+  font-size: 1em;
+  color: #555;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.record-score {
+  font-size: 1em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.record-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.record-buttons button {
+  padding: 5px 10px;
+  font-size: 0.9em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.record-buttons button:hover {
+  background-color: #0056b3;
+}
+
+/* סגנון טופס העריכה */
+.edit-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-form h3 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.edit-form .form-group {
+  width: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.edit-form .form-group label {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.edit-form .form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.edit-form .form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.edit-form .submit-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-form .submit-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+
+.edit-form .cancel-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-form .cancel-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .edit-form {
+    padding: 15px;
+  }
+
+  .edit-form h3 {
+    font-size: 1.5em;
+  }
+
+  .edit-form .form-group input {
+    font-size: 1em;
+    padding: 8px;
+  }
+
+  .edit-form .submit-button, .edit-form .cancel-button {
+    font-size: 1em;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-form {
+    padding: 10px;
+  }
+
+  .edit-form h3 {
+    font-size: 1.3em;
+  }
+
+  .edit-form .form-group input {
+    font-size: 0.9em;
+    padding: 6px;
+  }
+
+  .edit-form .submit-button, .edit-form .cancel-button {
+    font-size: 0.9em;
+    padding: 6px;
+  }
+}
+.new-attendance-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.new-attendance-form .form-title {
+  font-size: 1.8em;
+  color: #333;
+  text-align: center;
+}
+
+.new-attendance-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.new-attendance-form .form-group label {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.new-attendance-form .form-group input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.new-attendance-form .form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.new-attendance-form .submit-button {
+  padding: 10px;
+  font-size: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.new-attendance-form .submit-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+  .new-attendance-form {
+    padding: 15px;
+  }
+
+  .new-attendance-form .form-title {
+    font-size: 1.5em;
+  }
+
+  .new-attendance-form .form-group label {
+    font-size: 1em;
+  }
+
+  .new-attendance-form .form-group input {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+
+  .new-attendance-form .submit-button {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .new-attendance-form {
+    padding: 10px;
+  }
+
+  .new-attendance-form .form-title {
+    font-size: 1.3em;
+  }
+
+  .new-attendance-form .form-group label {
+    font-size: 0.9em;
+  }
+
+  .new-attendance-form .form-group input {
+    font-size: 0.8em;
+    padding: 6px;
+  }
+
+  .new-attendance-form .submit-button {
+    font-size: 0.8em;
+    padding: 6px;
+  }
+}
+.edit-score-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.edit-score-form .form-title {
+  font-size: 1.8em;
+  color: #333;
+  text-align: center;
+}
+
+.edit-score-form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.edit-score-form .form-group label {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.edit-score-form .form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.edit-score-form .form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.edit-score-form .form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.edit-score-form .submit-button {
+  width: 48%;
+  padding: 10px;
+  font-size: 1em;
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-score-form .submit-button:hover {
+  background-color: #45a049;
+  transform: scale(1.02);
+}
+
+.edit-score-form .cancel-button {
+  width: 48%;
+  padding: 10px;
+  font-size: 1em;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-score-form .cancel-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.02);
+}
+
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+  .edit-score-form {
+    padding: 15px;
+  }
+
+  .edit-score-form .form-title {
+    font-size: 1.5em;
+  }
+
+  .edit-score-form .form-group label {
+    font-size: 1em;
+  }
+
+  .edit-score-form .form-group input {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+
+  .edit-score-form .form-buttons button {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-score-form {
+    padding: 10px;
+  }
+
+  .edit-score-form .form-title {
+    font-size: 1.3em;
+  }
+
+  .edit-score-form .form-group label {
+    font-size: 0.9em;
+  }
+
+  .edit-score-form .form-group input {
+    font-size: 0.8em;
+    padding: 6px;
+  }
+
+  .edit-score-form .form-buttons button {
+    font-size: 0.8em;
+    padding: 6px;
+  }
+}
+.date-filter {
+  display: flex;
+  flex-wrap: wrap; /* להתאמה למסכים קטנים */
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.date-filter label {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.date-filter input[type="date"] {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.date-filter input[type="date"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.filter-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+  .date-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-button {
+    width: 100%;
+  }
+
+  .date-filter input[type="date"] {
+    width: 100%;
+  }
+}

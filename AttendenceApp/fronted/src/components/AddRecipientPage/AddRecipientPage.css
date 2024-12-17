@@ -1,0 +1,95 @@
+/* איפוס עיצוב בסיסי */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  background: url('https://img.freepik.com/free-vector/network-mesh-wire-digital-technology-background_1017-27428.jpg?semt=ais_hybrid') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.add-recipient-page {
+  max-width: 800px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #0052cc, #4a90e2, #003d99);
+  padding: 20px;
+  border-radius: 12px;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-recipient-page h2 {
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column; /* כל הכותרות יהיו מעל השדה */
+  align-items: center;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center; /* הצגת כותרת במרכז */
+}
+
+.react-select__control {
+  border-radius: 8px;
+  border: 1px solid #80d4ff;
+  font-size: 1em;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.react-select__control:hover {
+  border-color: #50e3c2;
+}
+
+.react-select__menu {
+  z-index: 9999;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #0052cc;
+}
+
+.success-message {
+  color: #50e3c2;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: #ff6f61;
+  text-align: center;
+  margin-top: 10px;
+}

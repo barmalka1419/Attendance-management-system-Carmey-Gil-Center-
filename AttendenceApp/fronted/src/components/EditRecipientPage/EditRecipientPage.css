@@ -1,0 +1,139 @@
+.edit-recipient-page {
+  max-width: 800px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #0052cc, #4a90e2, #003d99); /* שילוב גווני כחול */
+  padding: 20px;
+  border-radius: 12px;
+  color: #ffffff; /* טקסט לבן לקריאות טובה */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* צל עדין */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff; /* לבן */
+}
+
+.recipients-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgba(255, 253, 253, 0.935); /* שקיפות עדינה */
+  border-radius: 12px;
+  border: 1px solid #4a90e2; /* מסגרת כחולה */
+}
+
+.recipient-card {
+  width: 120px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2); /* רקע בהיר שקוף */
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.recipient-card.selected {
+  border-color: #50e3c2; /* צבע כחול-ירקרק */
+  background-color: rgba(80, 227, 194, 0.2); /* רקע תואם */
+}
+
+.recipient-card:hover {
+  box-shadow: 0 0 10px rgba(80, 227, 194, 0.5); /* הצללה עדינה */
+}
+
+.recipient-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.form-group2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ffffff; /* טקסט לבן */
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #80d4ff; /* כחול בהיר */
+  background-color: #f9f9f9; /* לבן */
+  color: #333; /* טקסט כהה לקריאות */
+}
+
+input:focus,
+select:focus {
+  border-color: #50e3c2; /* כחול-ירקרק */
+  outline: none;
+  box-shadow: 0 0 5px rgba(80, 227, 194, 0.5);
+}
+
+button {
+  width: 50%;
+  margin: 20px auto;
+  display: block;
+  padding: 15px;
+  background-color: #4a90e2; /* כחול */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+button:hover {
+  background-color: #0052cc; /* כחול כהה יותר */
+}
+
+.error-message {
+  color: #ff6f61; /* אדום כתום */
+  text-align: center;
+}
+
+.success-message {
+  color: #50e3c2; /* כחול-ירקרק */
+  text-align: center;
+}
+
+/* גלגלת */
+::-webkit-scrollbar {
+  width: 30px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a90e2; /* כחול */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0052cc; /* כחול כהה יותר */
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  background: url('https://images.pexels.com/photos/1323712/pexels-photo-1323712.jpeg?auto=compress&cs=tinysrgb&w=600') no-repeat center center fixed;
+  background-size: cover;
+}
