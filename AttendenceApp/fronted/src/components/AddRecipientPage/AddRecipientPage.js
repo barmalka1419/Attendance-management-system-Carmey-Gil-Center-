@@ -108,7 +108,7 @@ function AddRecipientPage() {
     setSuccess(message); // Temporarily displays success message
     setTimeout(() => {
       setSuccess('');
-      navigate('/add-recipient'); // Refreshes the page after 3 seconds
+      navigate('/service-recipients-management'); // Refreshes the page after 3 seconds
     }, 3000);
   };
 
