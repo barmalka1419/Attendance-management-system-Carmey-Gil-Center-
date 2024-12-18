@@ -128,7 +128,7 @@ function EditRecipientPage() {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      navigate('/'); // Refreshes the page after 3 seconds
+      navigate('/edit-recipient'); // Refreshes the page after 3 seconds
     }, 3000);
   };
 
