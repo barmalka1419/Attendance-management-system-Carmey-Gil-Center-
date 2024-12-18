@@ -78,7 +78,6 @@ function DeleteRecipientPage() {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      navigate('/')
       
     }, 2000);
   };
