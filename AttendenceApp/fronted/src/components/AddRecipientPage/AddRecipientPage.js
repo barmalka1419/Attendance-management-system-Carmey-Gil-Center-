@@ -5,6 +5,8 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import './AddRecipientPage.css';
 import { translateText } from '../../utils/translation'; 
+import { useParams, useNavigate } from 'react-router-dom';
+
 
 function AddRecipientPage() {
   const [guides, setGuides] = useState([]);
@@ -77,6 +79,7 @@ function AddRecipientPage() {
   const handleGuideSelection = (selectedOption) => {
     setFormData((prev) => ({ ...prev, guideId: selectedOption.value }));
   };
+  const navigate = useNavigate();  // React Router hook for navigation
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -92,7 +95,7 @@ function AddRecipientPage() {
     axios
       .post('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/addNewRecipient', formData)
       .then(() => {
-       // triggerSuccessMessage('מקבל השירות נוסף בהצלחה!');
+        triggerSuccessMessage('מקבל השירות נוסף בהצלחה!');
         setFormData({ id: '', name: '', imageUrl: '', groupId: '', guideId: '' });
       })
       .catch((error) => {
@@ -105,7 +108,7 @@ function AddRecipientPage() {
     setSuccess(message); // Temporarily displays success message
     setTimeout(() => {
       setSuccess('');
-      // Refreshes the page after 3 seconds
+      navigate('/add-recipient'); // Refreshes the page after 3 seconds
     }, 3000);
   };
 
