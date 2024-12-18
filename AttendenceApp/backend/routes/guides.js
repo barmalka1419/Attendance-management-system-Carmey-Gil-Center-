@@ -3,7 +3,9 @@ const router = express.Router();
 const Guide = require('../models/Guid');
 const Patient = require('../models/Patient');
 
-//give all the guids in the system form GuideSelectionPage work
+// Endpoint to fetch all guides in the system
+// URL: /api/guides/allguides
+// Used in GuideSelectionPage
 router.get('/allguides', async (req, res) => {
   try {
     const guides = await Guide.find(); // שליפת כל המדריכים
@@ -15,7 +17,9 @@ router.get('/allguides', async (req, res) => {
 });
 
 
-// delete guide by id from DeleteGuidePage http://localhost:500/api/guides/${selectedGuideId} work
+// Endpoint to delete a guide by ID
+// URL: /api/guides/:id
+// Used in DeleteGuidePage
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -33,8 +37,9 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-
-// adding new guide from addNewGuide http://localhost:500/api/guides/addNewGuide work !
+// Endpoint to add a new guide
+// URL: /api/guides/addNewGuide
+// Used in AddNewGuidePage
 router.post('/addNewGuide', async (req, res) => {
   const { id, name, email, password, imageUrl } = req.body;
 
@@ -49,17 +54,19 @@ router.post('/addNewGuide', async (req, res) => {
 });
 
 
-// updating guid from EditGuidePage http://localhost:500/api/guides/${selectedGuide._id} work !
+// Endpoint to update guide details
+// URL: /api/guides/:id
+// Used in EditGuidePage
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, password, imageUrl } = req.body;
 
-    // עדכון המדריך במסד הנתונים
+    // Update the guide details in the database
     const updatedGuide = await Guide.findByIdAndUpdate(
       id,
       { name, email, password, imageUrl },
-      { new: true, runValidators: true } // החזרה של המדריך המעודכן ובדיקת ולידציה
+      { new: true, runValidators: true } //Return the updated guide and validate the input
     );
 
     if (!updatedGuide) {
@@ -74,12 +81,13 @@ router.put('/:id', async (req, res) => {
 });
 
 
-// out all the patients that connenting to specific guid id from PatientSelectionPage work 
-
+// Endpoint to fetch all patients associated with a specific guide
+// URL: /api/guides/:guideId/patients
+// Used in PatientSelectionPage
 router.get('/:guideId/patients', async (req, res) => {
   const { guideId } = req.params;
   try {
-    const patients = await Patient.find({ guideId }); // חיפוש כל המטופלים לפי guideId
+    const patients = await Patient.find({ guideId }); // Retrieve patients linked to the specified guide
     res.json(patients);
   } catch (error) {
     console.error('Error fetching patients for guide:', error);
@@ -90,7 +98,9 @@ router.get('/:guideId/patients', async (req, res) => {
 
 
 
-// user login work !
+// Endpoint for user login
+// URL: /api/guides/login
+// Used for guide authentication
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -100,7 +110,7 @@ router.post('/login', async (req, res) => {
       return res.status(404).json({ message: 'מדריך לא נמצא במערכת.' });
     }
 
-    // מדריך נמצא
+   // Successful login
     res.status(200).json({
       message: 'התחברות בוצעה בהצלחה',
       guide,

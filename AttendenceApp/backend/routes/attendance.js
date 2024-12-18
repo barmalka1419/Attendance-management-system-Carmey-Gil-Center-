@@ -4,29 +4,28 @@ const Patient = require('../models/Patient');
 const mongoose = require('mongoose');
 
 
-
-//update a attendace recorde from AttendanceManagement http://10.10.0.10:500/api/attendance/${selectedPatientId}/attendance-update work !
+// Endpoint to update an attendance record from AttendanceManagement
 router.put('/:patientId/attendance-update', async (req, res) => {
   const { patientId } = req.params;
   const { _id, checkInTime, checkOutTime, date } = req.body;
-  console.log("that also eas fixed");
   try {
+    // Find patient by ID
     const patient = await Patient.findOne({ id: patientId });
     if (!patient) {
       return res.status(404).json({ message: 'Patient not found' });
     }
 
-    // חיפוש לפי _id
+      // Find the attendance record to update
     const attendanceRecord = patient.attendance.find(record => record._id.toString() === _id);
     if (!attendanceRecord) {
       return res.status(404).json({ message: 'Attendance record not found' });
     }
 
-    // עדכון שדות
+     // Update attendance fields if provided
     if (checkInTime) attendanceRecord.checkInTime = checkInTime;
     if (checkOutTime) attendanceRecord.checkOutTime = checkOutTime;
     if (date) attendanceRecord.date = new Date(date);
-
+    // Save the updated patient document
     await patient.save();
 
     res.status(200).json({ message: 'Attendance updated successfully', attendance: patient.attendance });
@@ -37,19 +36,19 @@ router.put('/:patientId/attendance-update', async (req, res) => {
 });
 
 
-// רישום כניסה או יציאה למטופל לפי זיהוי from PatientSelectionPage
+// Endpoint to automatically log attendance
 router.post('/:patientId/attendance', async (req, res) => {
   const { patientId } = req.params;
   const currentTime = new Date();
-  console.log("/:patientId/attendance");
-  // פונקציה ליצירת פורמט זמן 24 שעות (HH:mm)
+  // Helper function to format time as HH:mm
   const get24HourTime = (date) => {
-    const hours = date.getHours().toString().padStart(2, '0'); // שעות בפורמט שתי ספרות
-    const minutes = date.getMinutes().toString().padStart(2, '0'); // דקות בפורמט שתי ספרות
+    const hours = date.getHours().toString().padStart(2, '0'); 
+    const minutes = date.getMinutes().toString().padStart(2, '0'); 
     return `${hours}:${minutes}`;
   };
 
   try {
+    // Find patient by ID
     const patient = await Patient.findOne({ id: patientId });
 
     if (!patient) {
@@ -59,25 +58,26 @@ router.post('/:patientId/attendance', async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // בדיקה אם יש רישום של כניסה לאותו יום
+   
     const todayAttendance = patient.attendance.find(att => {
       const attDate = new Date(att.date);
       attDate.setHours(0, 0, 0, 0);
       return attDate.getTime() === today.getTime();
     });
 
+    // Update check-out time or create a new attendance record
     if (todayAttendance && !todayAttendance.checkOutTime) {
-      // אם יש רישום כניסה ללא רישום יציאה, נעדכן את שעת היציאה
+      
       todayAttendance.checkOutTime = get24HourTime(currentTime);
     } else if (!todayAttendance) {
-      // אם אין רישום כלל לאותו היום, ניצור רישום חדש של כניסה
+     
       patient.attendance.push({
         date: currentTime,
         checkInTime: get24HourTime(currentTime),
         checkOutTime: null
       });
     } else {
-      // אם יש כבר גם שעת כניסה וגם שעת יציאה לאותו היום
+     
       return res.status(400).json({ message: 'Attendance already complete for today' });
     }
 
@@ -90,18 +90,19 @@ router.post('/:patientId/attendance', async (req, res) => {
 });
 
 
-// add new record attendance from AttendanceManagement http://10.10.0.10:500/api/attendance/${selectedPatientId}/attendance-manual work !
+
+// add new record attendance from AttendanceManagement
 router.post('/:patientId/attendance-manual', async (req, res) => {
   const { patientId } = req.params;
   const { date, checkInTime, checkOutTime } = req.body;
- console.log("was fixing !");
+ ("was fixing !");
 
   try {
     const patient = await Patient.findOne({ id: patientId });
     if (!patient) {
       return res.status(404).json({ message: 'Patient not found' });
     }
-
+    // Add the new attendance record
     patient.attendance.push({ date, checkInTime, checkOutTime });
     await patient.save();
 
@@ -113,8 +114,7 @@ router.post('/:patientId/attendance-manual', async (req, res) => {
 });
 
 
-
-// update the score from AttendanceManagement work  http://10.10.0.10:500/api/attendance/update-scorev
+// Endpoint to update a score in an attendance record
 router.put('/update-score', async (req, res) => {
   const { patientId, attendanceId, score } = req.body;
   try {
@@ -123,7 +123,7 @@ router.put('/update-score', async (req, res) => {
     }
 
     const attendanceObjectId = new mongoose.Types.ObjectId(attendanceId);
-
+    // Update the score of the specified attendance record
     const updatedPatient = await Patient.findOneAndUpdate(
       { id: patientId, "attendance._id": attendanceObjectId },
       { $set: { "attendance.$.score": score } },
@@ -142,8 +142,8 @@ router.put('/update-score', async (req, res) => {
 });
 
 
+// Endpoint to delete an attendance record
 
-//delete attendance record from AttendanceManagement http://10.10.0.10:500/api/attendance/${selectedPatientId}/attendance-delete/${isoDate} work
 router.delete('/:patientId/attendance-delete/:date', async (req, res) => {
   const { patientId, date } = req.params;
   try {

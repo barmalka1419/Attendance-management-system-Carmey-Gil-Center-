@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const nodemailer = require('nodemailer');
-const XLSX = require('xlsx');
-const Patient = require('../models/Patient');
-const Guide = require('../models/Guid');
+const nodemailer = require('nodemailer');// For sending emails
+const XLSX = require('xlsx'); // For creating Excel reports
+const Patient = require('../models/Patient'); // Model for service recipients (patients)
+const Guide = require('../models/Guid'); // Model for guides
 
 
-// פונקציה שמביאה את נתוני הנוכחות לכל המדריכים
+// Function to fetch attendance data for all guides for the selected month
 const getAllAttendanceData = async (selectedMonth) => {
   try {
-    const guides = await Guide.find();
+    const guides = await Guide.find(); // Fetch all guides from the database
     const attendanceData = [];
 
     for (const guide of guides) {
-      const patients = await Patient.find({ guideId: guide._id });
+      const patients = await Patient.find({ guideId: guide._id }); // Fetch all patients assigned to the current guide
       const guideAttendance = [];
 
       for (const patient of patients) {
+        // Filter attendance records by the selected month and year
         const patientAttendance = patient.attendance.filter(att => {
           const attDate = new Date(att.date);
           return (
@@ -25,13 +26,13 @@ const getAllAttendanceData = async (selectedMonth) => {
           );
         });
 
-
+// Add attendance data for the patient
         guideAttendance.push({
           patientName: patient.name,
           attendance: patientAttendance,
         });
       }
-
+// Add attendance data for the guide
       attendanceData.push({
         guideName: guide.name,
         attendance: guideAttendance,
@@ -45,24 +46,24 @@ const getAllAttendanceData = async (selectedMonth) => {
   }
 };
 
-// יצירת דוח אקסל
+// Function to generate an Excel report based on attendance data
 const generateExcelReport = async (selectedMonth) => {
-  const attendanceData = await getAllAttendanceData(selectedMonth);
-  const wb = XLSX.utils.book_new();
+  const attendanceData = await getAllAttendanceData(selectedMonth); // Fetch attendance data
+  const wb = XLSX.utils.book_new(); // Create a new workbook
 
   attendanceData.forEach((guideData) => {
 
-    // כותרת: תאריך, מטופלים וציון עבור כל מטופל
+    // Create a sheet with headers: Date, Patient Names, and Scores
     const wsData = [
       ['תאריך', ...guideData.attendance.flatMap(p => [p.patientName, `ציון עבור ${p.patientName}`])]
     ];
 
     const daysInMonth = new Date(new Date(selectedMonth).getFullYear(), new Date(selectedMonth).getMonth() + 1, 0).getDate();
-    const wsStyles = {};
+    const wsStyles = {}; // Styles for Excel cells
 
     for (let day = 1; day <= daysInMonth; day++) {
       const currentDate = new Date(new Date(selectedMonth).getFullYear(), new Date(selectedMonth).getMonth(), day);
-      const formattedDate = currentDate.toLocaleDateString('he-IL');
+      const formattedDate = currentDate.toLocaleDateString('he-IL'); // Format the date for the report
       const row = [formattedDate];
 
       guideData.attendance.forEach(patient => {
@@ -75,7 +76,7 @@ const generateExcelReport = async (selectedMonth) => {
           const checkInTime = attendanceRecord.checkInTime || '--:--';
           const checkOutTime = attendanceRecord.checkOutTime || '--:--';
           row.push(`נכח : ${checkInTime}-${checkOutTime}`);
-          row.push(attendanceRecord.score ?? ''); // ציון או ריק אם לא קיים
+          row.push(attendanceRecord.score ?? ''); // Add score or leave blank if not available
         } else {
           row.push('אין נוכחות');
           row.push('');
@@ -84,12 +85,13 @@ const generateExcelReport = async (selectedMonth) => {
 
       wsData.push(row);
 
-      // עיצוב צבעים
+     // Highlight weekends in yellow
       const dateCell = `A${day + 1}`;
       if (currentDate.getDay() === 5 || currentDate.getDay() === 6) {
-        wsStyles[dateCell] = { fill: { fgColor: { rgb: 'FFFF00' } } }; // צהוב
+        wsStyles[dateCell] = { fill: { fgColor: { rgb: 'FFFF00' } } }; 
       }
 
+      // Highlight missing attendance in red
       guideData.attendance.forEach((_, col) => {
         const cell = XLSX.utils.encode_cell({ c: col * 2 + 1, r: day });
         if (row[col * 2 + 1] === 'אין נוכחות') {
@@ -100,32 +102,32 @@ const generateExcelReport = async (selectedMonth) => {
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
 
-    // החלת עיצובים
+    // Apply styles to the worksheet
     Object.keys(wsStyles).forEach(cell => {
       if (!ws[cell]) ws[cell] = {};
       ws[cell].s = wsStyles[cell];
     });
 
-    XLSX.utils.book_append_sheet(wb, ws, guideData.guideName);
+    XLSX.utils.book_append_sheet(wb, ws, guideData.guideName); // Add the worksheet to the workbook
   });
 
   return wb;
 };
 
-// שליחת הדוח במייל
+// Function to send an email with the Excel report as an attachment
 const sendEmailWithAttachment = async (filePath, email) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'gmail', // Using Gmail service
     auth: {
-      user: 'barmalka1419@gmail.com',
-      pass: 'zlxxfjowctpmzfay',
+      user: 'barmalka1419@gmail.com', // Sender email address
+      pass: 'zlxxfjowctpmzfay', // App-specific password
     },
   });
 
-  const mailOptions = {
-    from: 'barmalka1419@gmail.com',
+  const mailOptions = { 
+    from: 'barmalka1419@gmail.com', // Sender email
     to: email,
-    subject: 'דוח נוכחות',
+    subject: 'דוח נוכחות', 
     text: 'הדוח מצורף כאן.',
     attachments: [
       {
@@ -135,10 +137,12 @@ const sendEmailWithAttachment = async (filePath, email) => {
     ],
   };
 
-  await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions); // Send the email
 };
 
-// נתיב להפקת הדוח AttendanceReport work
+// Route to generate and send an attendance report
+// Endpoint: /api/reports/send-report
+// Used in AttendanceReport
 router.post('/send-report', async (req, res) => {
   try {
     const { selectedMonth, email } = req.body;

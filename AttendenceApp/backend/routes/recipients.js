@@ -3,26 +3,28 @@ const router = express.Router();
 const Patient = require('../models/Patient'); // מודל של מקבל שירות
 const Guide = require('../models/Guid'); // מודל של מדריך
 
-//add new recipient from AddRecipientPage http://localhost:500/api/recipients/addNewRecipient work
+// Add a new service recipient
+// Endpoint: /api/recipients/addNewRecipient
+// Used in AddRecipientPage
 router.post('/addNewRecipient', async (req, res) => {
     const { id, name, imageUrl, groupId, guideId } = req.body;
   
-    // בדיקת שדות חסרים
+    // Validate required fields
     if (!id || !name || !imageUrl || !groupId || !guideId) {
       return res.status(400).json({ message: 'נא למלא את כל השדות' });
     }
     try {
-      // בדוק אם המדריך קיים
+      // Check if the guide exists
       const guideExists = await Guide.findById(guideId);
       if (!guideExists) {
         return res.status(404).json({ message: 'המדריך לא נמצא' });
       }
   
-      // יצירת מקבל שירות חדש
+      // Create a new service recipient
       const newPatient = new Patient({ id, name, imageUrl, groupId, guideId });
       const savedPatient = await newPatient.save();
   
-      res.status(201).json(savedPatient); // החזרת מקבל השירות שנשמר
+      res.status(201).json(savedPatient); // Return the newly created service recipien
     } catch (error) {
       console.error('Error creating patient:', error);
       res.status(500).json({ message: 'שגיאה ביצירת מקבל השירות' });
@@ -30,10 +32,12 @@ router.post('/addNewRecipient', async (req, res) => {
   });
   
 
-// Get all recipients from the AttendanceManagement http://10.10.0.10:500/api/patients/all_patients work !
+// Get all service recipients
+// Endpoint: /api/patients/all_patients
+// Used in AttendanceManagement
 router.get('/all_patients', async (req, res) => {
   try {
-    // שליפת כל מקבלי השירות
+     // Retrieve all service recipients
     const recipients = await Patient.find(); 
     res.status(200).json(recipients);
   } catch (error) {
@@ -42,7 +46,9 @@ router.get('/all_patients', async (req, res) => {
   }
 });
 
-// Delete recipient by ID from AttendanceManagement http://localhost:500/api/recipients/${selectedRecipientId} work
+// Delete a service recipient by ID
+// Endpoint: /api/recipients/:id
+// Used in AttendanceManagement
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -61,11 +67,13 @@ router.delete('/:id', async (req, res) => {
 });
 
 
-//assigning a guide to a service recipient http://localhost:500/api/recipients/${selectedRecipient._id} work !
+// Update service recipient details
+// Endpoint: /api/recipients/:id
+// Used in EditRecipientPage
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, imageUrl, groupId, guideId } = req.body;
-
+// Validate required fields
   if (!name || !imageUrl || !groupId || !guideId) {
     return res.status(400).json({ message: 'נא למלא את כל השדות' });
   }
@@ -89,8 +97,9 @@ router.put('/:id', async (req, res) => {
 });
 
 
-// get all the attendance records from AttendanceManagement http://10.10.0.10:500/api/patients/${patientId}/attendance work!
-// also filter by selecting Date from AttendanceManagement http://10.10.0.10:500/api/patients/${selectedPatientId}/attendance?date=${filterDate} work !
+// Get attendance records of a specific patient
+// Endpoint: /api/patients/:patientId/attendance
+// Used in AttendanceManagement
 router.get('/:patientId/attendance', async (req, res) => {
   const { patientId } = req.params;
   const { date } = req.query;
@@ -102,6 +111,7 @@ router.get('/:patientId/attendance', async (req, res) => {
 
     let filteredAttendance = patient.attendance;
     if (date) {
+      // Filter attendance records by date
       filteredAttendance = filteredAttendance.filter(record => 
         new Date(record.date).toISOString().split('T')[0] === date
       );
