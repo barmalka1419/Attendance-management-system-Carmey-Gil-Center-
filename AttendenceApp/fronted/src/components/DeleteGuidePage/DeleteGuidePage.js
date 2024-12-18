@@ -74,7 +74,6 @@ function DeleteGuidePage() {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); 
     }, 3000);
   };
 

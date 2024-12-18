@@ -108,7 +108,6 @@ function AddRecipientPage() {
     setSuccess(message); // Temporarily displays success message
     setTimeout(() => {
       setSuccess('');
-      navigate('/'); // Refreshes the page after 3 seconds
     }, 3000);
   };
 

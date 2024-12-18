@@ -98,7 +98,6 @@ function AddTeamMemberPage() {
     setSuccess(message);  // Temporarily displays the success message
     setTimeout(() => {
       setSuccess('');
-      window.location.reload();  // Refreshes the page after 3 seconds
     }, 3000);
   };
 
