@@ -1,4 +1,3 @@
-/* עיצוב בסיסי לכל הדף */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f9f9f9;
@@ -6,7 +5,6 @@ body {
   padding: 0;
 }
 
-/* עיצוב למיכל הדף */
 .report-container {
   max-width: 600px;
   margin: 50px auto;
@@ -17,14 +15,12 @@ body {
   text-align: center;
 }
 
-/* כותרת */
 .report-title {
   font-size: 1.8rem;
   color: #333333;
   margin-bottom: 20px;
 }
 
-/* עיצוב לקבוצות טופס */
 .form-label {
   font-size: 1.2em;
   color: #333;
@@ -37,7 +33,6 @@ body {
 }
 
 
-/* עיצוב שדות קלט */
 .form-input {
   width: 100%;
   padding: 10px;
@@ -53,7 +48,6 @@ body {
   outline: none;
 }
 
-/* כפתור שליחה */
 .submit-button {
   width: 100%;
   padding: 7px;
@@ -76,13 +70,11 @@ body {
   cursor: not-allowed;
 }
 
-/* אנימציה לכפתור טעינה */
 .loading {
   background-color: #ffcc00;
   color: #333333;
 }
 
-/* הודעה */
 .message {
   margin-top: 20px;
   font-size: 1rem;
@@ -90,7 +82,6 @@ body {
   font-weight: bold;
 }
 
-/* עיצוב רספונסיבי */
 @media (max-width: 768px) {
   .report-container {
     padding: 15px;

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AttendanceManagement.css';
-import { translateText } from '../../utils/translation'; // פונקציה לתרגום טקסטים
-
+import { translateText } from '../../utils/translation'; 
 function AttendanceManagement() {
   const [patients, setPatients] = useState([]);
   const [selectedPatientId, setSelectedPatientId] = useState('');
   const [attendanceRecords, setAttendanceRecords] = useState([]);
   const [filterDate, setFilterDate] = useState('');
-  const [editingScore, setEditingScore] = useState(null); // לניהול עריכת ציון
+  const [editingScore, setEditingScore] = useState(null); 
 
   const [newAttendance, setNewAttendance] = useState({
     date: '',
@@ -32,9 +31,14 @@ function AttendanceManagement() {
     cancel: '',
     errorMessage: '',
     successMessage: '',
+    checkIn: "",
+    checkOut:'',
+    score: '',
+    undefinedScore: '',
+    errorMessage2:''
   });
 
-  // טעינת תרגומי הטקסטים בהתבסס על השפה הנבחרת
+  // Load translations dynamically based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
     const loadTranslations = async () => {
@@ -55,41 +59,51 @@ function AttendanceManagement() {
         updateScore: await translateText('Update Score', selectedLanguage),
         cancelUpdate: await translateText('Cancel Update', selectedLanguage), // In case you want the "Cancel" button translated too
         ScoreUpdate: await translateText('Score update',selectedLanguage),
+        checkIn: await translateText('CheckIn:', selectedLanguage),
+        checkOut: await translateText('CheckOut:', selectedLanguage),
+        score: await translateText('Score', selectedLanguage),
+        undefinedScore: await translateText("", selectedLanguage),
+        errorMessage2: await translateText('Date and Check-In Time are required', selectedLanguage),
+
       };
-      setTranslatedTexts(translations);
+      setTranslatedTexts(translations); // Updates the state with the translated texts
+
     };
     loadTranslations();
   }, []);
 
+  // Fetches all patients when the component mounts
   useEffect(() => {
-    axios.get('http://localhost:500/api/patients/all_patients')
+    axios.get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/patients/all_patients')
       .then((response) => {
-        setPatients(response.data);
+        setPatients(response.data); // Stores the patient list in state
         setError('');
       })
       .catch(() => {
-        setError(translatedTexts.errorMessage);
+        setError(translatedTexts.errorMessage); // Displays an error message if the request fails
       });
   }, [translatedTexts.errorMessage]);
 
+
+  // Handle patient selection and fetch their attendance records
   const handlePatientSelection = (patientId) => {
-    setSelectedPatientId(patientId);
-    fetchAttendanceRecords(patientId);
+    setSelectedPatientId(patientId); // Updates the selected patient
+    fetchAttendanceRecords(patientId); // Fetches attendance records for the selected patient
   };
 
 
   
   const handleUpdateScore = () => {
     const { attendanceId, currentScore } = editingScore;
-    axios.put('http://localhost:500/api/attendance/update-score', {
-        patientId: selectedPatientId, // משתמש ב-id המותאם אישית
+    axios.put('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/attendance/update-score', {
+        patientId: selectedPatientId, 
         attendanceId,
         score: currentScore,
     })
     .then((response) => {
-        setAttendanceRecords(response.data.attendance);
-        setEditingScore(null);
-        triggerSuccessMessage(translatedTexts.successMessage);
+        setAttendanceRecords(response.data.attendance); // Updates the attendance score
+        setEditingScore(null);  // Resets the editing score state
+        triggerSuccessMessage(translatedTexts.successMessage); // Displays a success message
     })
     .catch((error) => {
         console.error('Error updating score:', error.response?.data || error.message);
@@ -101,11 +115,6 @@ function AttendanceManagement() {
   
   
   const handleEditScore = (attendanceId, currentScore) => {
-    console.log('handleEditScore called with:', {
-      attendanceId,
-      currentScore,
-    });
-  
     setEditingScore({
       attendanceId,
       currentScore,
@@ -113,27 +122,38 @@ function AttendanceManagement() {
   };
   
   
+  // Fetch attendance records from the server for a specific patient
   const fetchAttendanceRecords = (patientId) => {
-    axios.get(`http://localhost:500/api/patients/${patientId}/attendance`)
+    axios.get(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/patients/${patientId}/attendance`)
       .then((response) => {
-        setAttendanceRecords(response.data.attendance);
+        setAttendanceRecords(response.data.attendance); // // Update state with the fetched attendance records
         setError('');
       })
       .catch(() => {
-        setError(translatedTexts.errorMessage);
+        setError(translatedTexts.errorMessage); // Displays an error message if the request fails
       });
   };
 
+
+  // Add a new attendance record
   const handleAddAttendance = () => {
-    axios.post(`http://localhost:500/api/attendance/${selectedPatientId}/attendance-manual`, newAttendance)
+    const { date, checkInTime } = newAttendance;
+
+      // Validation: Ensure date and check-in time are provided
+    if (!date || !checkInTime) {
+      setError(translatedTexts.errorMessage2 || 'Date and Check-In Time are required'); // Set error message
+      return;
+    }
+  // Send data to the server if validation passes
+    axios.post(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/attendance/${selectedPatientId}/attendance-manual`, newAttendance)
       .then((response) => {
-        setAttendanceRecords(response.data.attendance);
-        setNewAttendance({ date: '', checkInTime: '', checkOutTime: '' });
-        triggerSuccessMessage(translatedTexts.successMessage);
+        setAttendanceRecords(response.data.attendance); // Updates the attendance records with the new record
+        setNewAttendance({ date: '', checkInTime: '', checkOutTime: '' }); // Resets the new attendance form
+        triggerSuccessMessage(translatedTexts.successMessage); // Displays a success message
         setError('');
       })
       .catch(() => {
-        setError(translatedTexts.errorMessage);
+        setError(translatedTexts.errorMessage); // Displays an error message if the request fails
       });
   };
 
@@ -143,8 +163,7 @@ function AttendanceManagement() {
       ...record,
       checkInTime: record.checkInTime ? formatTimeTo24Hr(record.checkInTime) : '',
       checkOutTime: record.checkOutTime ? formatTimeTo24Hr(record.checkOutTime) : '',
-    };
-    console.log('Selected record for editing:', formattedRecord);
+    }; // Prepares the record for editing
 
     setEditingRecord(formattedRecord);
   };
@@ -154,50 +173,46 @@ function AttendanceManagement() {
       ...editingRecord,
       date: new Date(editingRecord.date).toISOString().split('T')[0],
     };
-    console.log('Sending updated record:', updatedRecord); // בדוק כאן
 
-    axios.put(`http://localhost:500/api/attendance/${selectedPatientId}/attendance-update`, updatedRecord)
+    axios.put(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/attendance/${selectedPatientId}/attendance-update`, updatedRecord)
       .then((response) => {
 
-        console.log('Server response:', response.data);
-
-        setAttendanceRecords(response.data.attendance);
-        setEditingRecord(null);
-        triggerSuccessMessage(translatedTexts.successMessage);
+        setAttendanceRecords(response.data.attendance); // Updates the attendance records
+        setEditingRecord(null); // Resets the editing state
+        triggerSuccessMessage(translatedTexts.successMessage); // Displays a success message
         setError('');
       })
       .catch(() => {
         console.error('Error from server:', error.response?.data || error.message);
-
-        setError(translatedTexts.errorMessage);
+        setError(translatedTexts.errorMessage); // Displays an error message if the request fails
       });
   };
 
   const formatDateToIsraeli = (dateString) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('he-IL').format(date);
+    return new Intl.DateTimeFormat('he-IL').format(date); // Formats date to the Israeli format
   };
 
 
   
   const handleDeleteAttendance = (date) => {
     const isoDate = new Date(date).toISOString().split('T')[0];
-    axios.delete(`http://localhost:500/api/attendance/${selectedPatientId}/attendance-delete/${isoDate}`)
+    axios.delete(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/attendance/${selectedPatientId}/attendance-delete/${isoDate}`)
       .then((response) => {
-        setAttendanceRecords(response.data.attendance);
-        triggerSuccessMessage(translatedTexts.successMessage);
+        setAttendanceRecords(response.data.attendance); // Removes the deleted attendance record
+        triggerSuccessMessage(translatedTexts.successMessage); // Displays a success message
         setError('');
       })
       .catch(() => {
-        setError(translatedTexts.errorMessage);
+        setError(translatedTexts.errorMessage); 
       });
   };
 
   const handleFilterByDate = () => {
     if (selectedPatientId && filterDate) {
-      axios.get(`http://localhost:500/api/patients/${selectedPatientId}/attendance?date=${filterDate}`)
+      axios.get(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/patients/${selectedPatientId}/attendance?date=${filterDate}`)
         .then((response) => {
-          setAttendanceRecords(response.data.attendance);
+          setAttendanceRecords(response.data.attendance); // Filters attendance records by date
           setError('');
         })
         .catch(() => {
@@ -227,7 +242,7 @@ function AttendanceManagement() {
     }
     if (hours === 0) hours = 12;
 
-    return `${modifier} ${hours}:${minutes} `;
+    return ` ${hours}:${minutes} `;
   };
 
   const triggerSuccessMessage = (message) => {
@@ -267,13 +282,15 @@ function AttendanceManagement() {
               {attendanceRecords.map((record) => (
                 <li key={record.date} className="record-item">
                   <div className="record-header">{formatDateToIsraeli(record.date)}</div>
-                  <div className="record-details">
-                    <span>כניסה: {formatTime(record.checkInTime)}</span>
+                  <div className="record-details"
+                   dir={localStorage.getItem('selectedLanguage') === 'he' ? 'rtl' : 'ltr'}>
+                    <span>{translatedTexts.checkIn} {formatTime(record.checkInTime)}</span>
                     <span> | </span>
-                    <span>יציאה: {formatTime(record.checkOutTime)}</span>
+                    <span>{translatedTexts.checkOut} {formatTime(record.checkOutTime)}</span>
                   </div>
-                  <div className="record-score">
-                    <span>ציון: {record.score || 'לא הוגדר'}</span>
+                  <div className="record-score"
+                  dir={localStorage.getItem('selectedLanguage') === 'he' ? 'rtl' : 'ltr'}>
+                    <span>{translatedTexts.score}: {record.score || translatedTexts.undefinedScore}</span>
                   </div>
                   <div className="record-buttons">
                     <button className="edit-button" onClick={() => handleEditAttendance(record)}>
@@ -308,9 +325,7 @@ function AttendanceManagement() {
                      
 
                       onChange={(e) => {
-                        console.log('New selected date:', e.target.value);
                         setEditingRecord({ ...editingRecord, date: e.target.value });
-                        console.log('Updated editingRecord:', { ...editingRecord, date: e.target.value });
                     }}
                       required
                     />

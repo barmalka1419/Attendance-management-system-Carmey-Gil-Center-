@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUserPlus, FaTrashAlt, FaEdit } from 'react-icons/fa'; // ייבוא אייקונים
+import { FaUserPlus, FaTrashAlt, FaEdit } from 'react-icons/fa'; 
 import './ServiceRecipientsManagement.css';
-import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
+import { translateText } from '../../utils/translation'; 
 
 function ServiceRecipientsManagement() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for navigation
   const [translatedTexts, setTranslatedTexts] = useState({
     header: '',
     addRecipient: '',
@@ -13,6 +13,7 @@ function ServiceRecipientsManagement() {
     editRecipient: '',
   });
 
+  // Load translations dynamically based on selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -23,22 +24,25 @@ function ServiceRecipientsManagement() {
         deleteRecipient: await translateText('Delete Service Recipient', selectedLanguage),
         editRecipient: await translateText('Edit Service Recipient', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update state with translated texts
     };
 
-    loadTranslations();
+    loadTranslations(); // Call the function to load translations
   }, []);
 
+  // Navigate to the Add Service Recipient page
   const handleAddRecipient = () => {
-    navigate('/add-recipient'); // נווט לדף הוספת מקבל שירות
+    navigate('/add-recipient');
   };
 
+ // Navigate to the Delete Service Recipient page
   const handleDeleteRecipient = () => {
-    navigate('/delete-recipient'); // נווט לדף מחיקת מקבל שירות
+    navigate('/delete-recipient'); 
   };
 
+// Navigate to the Edit Service Recipient page
   const handleEditRecipient = () => {
-    navigate('/edit-recipient'); // נווט לדף עריכת מקבל שירות
+    navigate('/edit-recipient');
   };
 
   return (

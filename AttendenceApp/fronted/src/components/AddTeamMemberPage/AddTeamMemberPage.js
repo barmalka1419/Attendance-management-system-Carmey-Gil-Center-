@@ -6,17 +6,19 @@ import './AddTeamMemberPage.css';
 import { translateText } from '../../utils/translation'; // פונקציית תרגום
 
 function AddTeamMemberPage() {
+    // State to manage form data and other UI elements
+
   const [formData, setFormData] = useState({
     id: '',
     name: '',
     email: '',
     password: '',
     imageUrl: '',
-  });
-  const [focusedField, setFocusedField] = useState('');
-  const [keyboardInput, setKeyboardInput] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  }); 
+  const [focusedField, setFocusedField] = useState('');    // Tracks the current focused form field
+  const [keyboardInput, setKeyboardInput] = useState(''); // Tracks the virtual keyboard input
+  const [error, setError] = useState('');                // Error message state
+  const [success, setSuccess] = useState('');           // Success message state
   const [translatedTexts, setTranslatedTexts] = useState({
     header: '',
     idLabel: '',
@@ -29,6 +31,8 @@ function AddTeamMemberPage() {
     errorMessage: '',
   });
 
+
+  // Effect to load translations dynamically based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -44,24 +48,24 @@ function AddTeamMemberPage() {
         successMessage: await translateText('Team member added successfully!', selectedLanguage),
         errorMessage: await translateText('Please fill in all fields', selectedLanguage),
       };
-      setTranslatedTexts(translations);
+      setTranslatedTexts(translations); // Updates the state with translated texts
     };
 
     loadTranslations();
   }, []);
 
   const handleKeyboardChange = (input) => {
-    setKeyboardInput(input);
+    setKeyboardInput(input); // Updates the virtual keyboard input state
     if (focusedField) {
-      setFormData((prev) => ({ ...prev, [focusedField]: input }));
+      setFormData((prev) => ({ ...prev, [focusedField]: input })); // Updates the specific form field linked to the virtual keyboard
     }
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));  // Updates the corresponding field in the form data
     if (name === focusedField) {
-      setKeyboardInput(value);
+      setKeyboardInput(value);  // Synchronizes the virtual keyboard input with the form field
     }
   };
 
@@ -70,29 +74,31 @@ function AddTeamMemberPage() {
 
     const { id, name, email, password, imageUrl } = formData;
 
+    // Validate that all required fields are filled
     if (!id || !name || !email || !password || !imageUrl) {
       setError(translatedTexts.errorMessage);
       return;
     }
 
+    // Sends the form data to the server
     axios
-      .post('http://localhost:500/api/guides/addNewGuide', formData)
+      .post('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/addNewGuide', formData)
       .then(() => {
         triggerSuccessMessage(translatedTexts.successMessage);
         setFormData({ id: '', name: '', email: '', password: '', imageUrl: '' });
-        setKeyboardInput('');
+        setKeyboardInput(''); // Resets the virtual keyboard input
       })
       .catch((error) => {
         console.error('Error adding team member:', error.response?.data || error.message);
-        setError(translatedTexts.errorMessage);
+        setError(translatedTexts.errorMessage); // Sets error message in case of failure
       });
   };
 
   const triggerSuccessMessage = (message) => {
-    setSuccess(message);
+    setSuccess(message);  // Temporarily displays the success message
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); // רענון הדף לאחר 3 שניות
+      window.location.reload();  // Refreshes the page after 3 seconds
     }, 3000);
   };
 
@@ -107,7 +113,7 @@ function AddTeamMemberPage() {
             id="id"
             name="id"
             value={formData.id}
-            onFocus={() => setFocusedField('id')}
+            onFocus={() => setFocusedField('id')} // Tracks the focus on this field
             onChange={handleInputChange}
             required
           />
@@ -119,7 +125,7 @@ function AddTeamMemberPage() {
             id="name"
             name="name"
             value={formData.name}
-            onFocus={() => setFocusedField('name')}
+            onFocus={() => setFocusedField('name')} // Tracks the focus on this field
             onChange={handleInputChange}
             required
           />
@@ -131,7 +137,7 @@ function AddTeamMemberPage() {
             id="email"
             name="email"
             value={formData.email}
-            onFocus={() => setFocusedField('email')}
+            onFocus={() => setFocusedField('email')} // Tracks the focus on this field
             onChange={handleInputChange}
             required
           />
@@ -143,7 +149,7 @@ function AddTeamMemberPage() {
             id="password"
             name="password"
             value={formData.password}
-            onFocus={() => setFocusedField('password')}
+            onFocus={() => setFocusedField('password')} // Tracks the focus on this field
             onChange={handleInputChange}
             required
           />
@@ -155,7 +161,7 @@ function AddTeamMemberPage() {
             id="imageUrl"
             name="imageUrl"
             value={formData.imageUrl}
-            onFocus={() => setFocusedField('imageUrl')}
+            onFocus={() => setFocusedField('imageUrl')} // Tracks the focus on this field
             onChange={handleInputChange}
             required
           />
@@ -168,7 +174,7 @@ function AddTeamMemberPage() {
           input={keyboardInput}
           onKeyPress={(button) => {
             if (button === '{bksp}') {
-              handleKeyboardChange(keyboardInput.slice(0, -1));
+              handleKeyboardChange(keyboardInput.slice(0, -1)); // Handles backspace functionality for the virtual keyboard
             }
           }}
         />

@@ -6,19 +6,20 @@ import 'simple-keyboard/build/css/index.css';
 import { translateText } from '../../utils/translation';
 
 function TeamLoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const [email, setEmail] = useState(''); // State to store the user's email input
+  const [password, setPassword] = useState(''); // State to store the user's password input
+  const [loginError, setLoginError] = useState(''); // State to store any login error messages
   const [translatedTexts, setTranslatedTexts] = useState({
     title: '',
     usernameLabel: '',
     passwordLabel: '',
     submitButton: '',
   });
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [focusedField, setFocusedField] = useState('');
-  const navigate = useNavigate();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false); // State to control virtual keyboard visibility
+  const [focusedField, setFocusedField] = useState(''); // Tracks which input field is focused
+  const navigate = useNavigate(); // React Router's navigation hook
 
+  // Load translations dynamically based on the selected language
   useEffect(() => {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'he';
     const loadTranslations = async () => {
@@ -28,17 +29,18 @@ function TeamLoginPage() {
         passwordLabel: await translateText('Password', savedLanguage),
         submitButton: await translateText('Login', savedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update state with the translated texts
     };
 
-    loadTranslations();
+    loadTranslations(); // Call the function to load translations
   }, []);
 
+// Handle login form submission
   const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoginError('');
-
-    fetch('http://localhost:500/api/guides/login', {
+    event.preventDefault(); // Prevent default form submission behavior
+    setLoginError(''); // Reset any previous error messages
+// API call to authenticate user
+    fetch('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -62,9 +64,9 @@ function TeamLoginPage() {
 
   const handleKeyboardInput = (input) => {
     if (focusedField === 'email') {
-      setEmail(input);
+      setEmail(input); // Update email state if the email field is focused
     } else if (focusedField === 'password') {
-      setPassword(input);
+      setPassword(input); // Update password state if the password field is focused
     }
   };
 

@@ -34,7 +34,7 @@ h2 {
   margin-bottom: 5px;
   font-weight: bold;
   font-size: 1.2em;
-  color: #000000; /* צבע שחור לטקסט */
+  color: #000000; 
 }
 
 input {
@@ -69,7 +69,6 @@ button:hover {
   text-align: center;
 }
 
-/* עיצוב המקלדת */
 .simple-keyboard {
   font-size: 1.5em;
   color: #333333;

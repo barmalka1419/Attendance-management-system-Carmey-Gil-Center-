@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './EmotionSelection.css';
-import { translateText } from '../../utils/translation'; // פונקציית התרגום
+import { translateText } from '../../utils/translation'; 
 
 function EmotionSelection({ onSelectEmotion }) {
   const [translatedTexts, setTranslatedTexts] = useState({
@@ -10,6 +10,7 @@ function EmotionSelection({ onSelectEmotion }) {
     ],
   });
 
+  // Fetch and translate texts based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -26,14 +27,14 @@ function EmotionSelection({ onSelectEmotion }) {
             { label: 'Tired', icon: '😴', suspicious: false },
           ].map(async (emotion) => ({
             ...emotion,
-            label: await translateText(emotion.label, selectedLanguage),
+            label: await translateText(emotion.label, selectedLanguage) ,  // Translate each emotion label
           }))
         ),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update the state with translated texts
     };
 
-    loadTranslations();
+    loadTranslations(); // Call the function to load translations
   }, []);
 
   return (

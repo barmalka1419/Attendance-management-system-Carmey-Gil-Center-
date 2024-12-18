@@ -4,10 +4,10 @@ import './DeleteRecipientPage.css';
 import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
 
 function DeleteRecipientPage() {
-  const [recipients, setRecipients] = useState([]);
-  const [selectedRecipientId, setSelectedRecipientId] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [recipients, setRecipients] = useState([]); // State to store the list of recipients
+  const [selectedRecipientId, setSelectedRecipientId] = useState(''); // State to track the selected recipient for deletion
+  const [error, setError] = useState(''); // State to store error messages
+  const [success, setSuccess] = useState('');  // State to store success messages
   const [translatedTexts, setTranslatedTexts] = useState({
     title: '',
     deleteButton: '',
@@ -15,22 +15,25 @@ function DeleteRecipientPage() {
     selectToDelete: '',
     successMessage: '',
     errorDeleting: '',
-  });
+  }); // State to store the translated texts for the UI
 
+  // Effect to fetch the list of recipients and load translations on component mount
   useEffect(() => {
+    // Fetch all recipients from the server
     axios
-      .get('http://localhost:500/api/recipients/all_patients')
+      .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/all_patients')
       .then((response) => {
-        setRecipients(response.data);
-        setError('');
+        setRecipients(response.data); // Store the fetched recipients in state
+        setError(''); // Clear any previous error messages
       })
       .catch((error) => {
         console.error('Error fetching recipients:', error);
         setError(translatedTexts.errorFetching);
       });
 
-    const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
+    const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he'; // Get the selected language from localStorage
 
+    // Load translated texts dynamically based on the selected language    
     const loadTranslations = async () => {
       const newTexts = {
         title: await translateText('Delete Service Recipient', selectedLanguage),
@@ -40,26 +43,28 @@ function DeleteRecipientPage() {
         successMessage: await translateText('Recipient deleted successfully', selectedLanguage),
         errorDeleting: await translateText('Error deleting recipient', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update the state with translated texts
     };
 
-    loadTranslations();
+    loadTranslations();  // Trigger the translation loading
   }, []);
 
+  // Function to handle deletion of a recipient
   const handleDelete = () => {
     if (!selectedRecipientId) {
+      // Ensure a recipient is selected before attempting deletion
       setError(translatedTexts.selectToDelete);
       return;
     }
 
     axios
-      .delete(`http://localhost:500/api/recipients/${selectedRecipientId}`)
+      .delete(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/${selectedRecipientId}`)
       .then(() => {
         triggerSuccessMessage(translatedTexts.successMessage);
         setRecipients((prevRecipients) =>
           prevRecipients.filter((recipient) => recipient._id !== selectedRecipientId)
         );
-        setSelectedRecipientId('');
+        setSelectedRecipientId(''); // Reset the selected recipient ID
       })
       .catch((error) => {
         console.error('Error deleting recipient:', error);
@@ -67,11 +72,12 @@ function DeleteRecipientPage() {
       });
   };
 
+  // Function to display a success message and reload the page
   const triggerSuccessMessage = (message) => {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); // רענון הדף לאחר 2 שניות
+      window.location.reload(); 
     }, 2000);
   };
 

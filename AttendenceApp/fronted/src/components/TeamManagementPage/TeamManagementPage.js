@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit, FaTrashAlt, FaUserPlus } from 'react-icons/fa'; // אייקונים מקצועיים
+import { FaEdit, FaTrashAlt, FaUserPlus } from 'react-icons/fa'; 
 import './TeamManagementPage.css';
-import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
+import { translateText } from '../../utils/translation'; 
 
 function TeamManagementPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // React Router's navigation hook
   const [translatedTexts, setTranslatedTexts] = useState({
     header: '',
     editButton: '',
@@ -16,6 +16,7 @@ function TeamManagementPage() {
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
+    // Load translations dynamically based on the selected language
     const loadTranslations = async () => {
       const newTexts = {
         header: await translateText('Team Management', selectedLanguage),
@@ -23,20 +24,23 @@ function TeamManagementPage() {
         deleteButton: await translateText('Delete Team Member', selectedLanguage),
         addButton: await translateText('Add Team Member', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update the state with translated text
     };
 
     loadTranslations();
   }, []);
 
+  // Handle navigation to the "Edit Team Member" page
   const handleEditTeamMember = () => {
     navigate('/edit-team-member');
   };
 
+  // Handle navigation to the "Delete Team Member" page
   const handleDeleteTeamMember = () => {
     navigate('/delete-team-member');
   };
-
+  
+// Handle navigation to the "Add Team Member" page
   const handleAddTeamMember = () => {
     navigate('/add-team-member');
   };

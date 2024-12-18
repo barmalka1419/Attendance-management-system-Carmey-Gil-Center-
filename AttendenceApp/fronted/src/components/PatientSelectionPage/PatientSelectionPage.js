@@ -2,26 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import EmotionSelection from '../EmotionSelection/EmotionSelection';
 import './PatientSelectionPage.css';
-import { speakText } from '../../utils/speech'; // פונקציית ההקראה
-import { translateText } from '../../utils/translation'; // פונקציית התרגום
+import { speakText } from '../../utils/speech';
+import { translateText } from '../../utils/translation';
 
 function PatientSelectionPage() {
-  const { guideId } = useParams();
-  const [patients, setPatients] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedPatient, setSelectedPatient] = useState(null);
+  const { guideId } = useParams(); // Retrieve the guideId parameter from the URL
+  const [patients, setPatients] = useState([]); // State to store the list of patients
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage the visibility of the success popup
+  const [selectedPatient, setSelectedPatient] = useState(null); // State to store the currently selected patient
   const [translatedTexts, setTranslatedTexts] = useState({
     pageTitle: '',
     successMessage: '',
     selectPatient: '',
   });
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // React Router hook for navigation
 
+  // Load translations based on the selected language
   useEffect(() => {
-    // שמירת השפה שנבחרה מ-localStorage
+    
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
-    // תרגום טקסטים בהתאם לשפה שנבחרה
+   
     const loadTranslations = async () => {
       const newTexts = {
         pageTitle: await translateText('Attendance Registration: Select a Patient', selectedLanguage),
@@ -34,29 +35,31 @@ function PatientSelectionPage() {
     loadTranslations();
   }, []);
 
+  // Fetch the list of patients for the selected guide
   useEffect(() => {
-    fetch(`http://localhost:500/api/guides/${guideId}/patients`)
+    fetch(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/${guideId}/patients`)
       .then((response) => response.json())
       .then((data) => setPatients(data))
       .catch((error) => console.error('Error fetching patients:', error));
   }, [guideId]);
 
+  // Handle selecting a patient
   const handlePatientSelect = async (patient) => {
-    setSelectedPatient(patient);
+    setSelectedPatient(patient); // Update the selected patient
 
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
-    // תרגום שם המטופל אם השפה הנבחרת אינה עברית
+    // Translate the patient's name if the selected language is not Hebrew
     const translatedPatientName =
       selectedLanguage === 'he' ? patient.name : await translateText(patient.name, selectedLanguage);
 
-    // יצירת טקסט להקראה
     const textToSpeak = `${translatedTexts.selectPatient} ${translatedPatientName}`;
-    speakText(textToSpeak, selectedLanguage); // שימוש בפונקציה הקיימת עם השפה שנבחרה
+    speakText(textToSpeak, selectedLanguage);  // Use the text-to-speech function
   };
 
+// Send an email if a suspicious emotion is detected
   const sendSuspiciousEmotionEmail = (patient, emotion) => {
-    fetch('http://localhost:500/api/sendEmail', {
+    fetch('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/sendEmail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,14 +80,15 @@ function PatientSelectionPage() {
       .catch((error) => console.error('Error sending email:', error));
   };
 
+  // Handle selecting an emotion for the selected patient
   const handleEmotionSelect = (emotion) => {
     if (!selectedPatient) {
       console.error('No patient selected');
       return;
     }
-
-
-    fetch(`http://localhost:500/api/attendance/${selectedPatient.id}/attendance`, {
+    
+    // Update attendance with the selected emotion
+    fetch(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/attendance/${selectedPatient.id}/attendance`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ emotion: emotion.label }),

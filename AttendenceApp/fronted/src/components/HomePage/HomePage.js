@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { translateText } from '../../utils/translation';
 
 function HomePage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // React Router hook for navigation
   const [language, setLanguage] = useState(localStorage.getItem('selectedLanguage') || 'he');
   const [translatedTexts, setTranslatedTexts] = useState({
     header: '',
@@ -16,6 +16,7 @@ function HomePage() {
     languageSelector: '',
   });
 
+  // Load translations based on the selected language
   useEffect(() => {
     const loadTranslations = async () => {
       const newTexts = {
@@ -26,15 +27,16 @@ function HomePage() {
         teamLogin: await translateText('Team Login', language),
         languageSelector: await translateText('Choose Language:', language),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update the state with translated texts
     };
 
-    loadTranslations();
-  }, [language]);
+    loadTranslations(); // Call the function to load translations
+  }, [language]); // Re-run effect when the language changes
 
+// Handle language change
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
-    localStorage.setItem('selectedLanguage', lang); // שמירת שפה
+    localStorage.setItem('selectedLanguage', lang); // Save the selected language in local storage for persistence
   };
 
   return (

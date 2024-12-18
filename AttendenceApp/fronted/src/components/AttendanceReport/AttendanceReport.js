@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
-import './AttendanceReport.css'; // קובץ העיצוב
-import { translateText } from '../../utils/translation'; // פונקציית התרגום
+import './AttendanceReport.css'; 
+import { translateText } from '../../utils/translation'; 
 
 function AttendanceReport() {
-  const [email, setEmail] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [focusedField, setFocusedField] = useState('');
-  const [keyboardInput, setKeyboardInput] = useState('');
-  const [translatedTexts, setTranslatedTexts] = useState({
+  const [email, setEmail] = useState('');   // State for email input
+  const [selectedMonth, setSelectedMonth] = useState(''); // State for selected month input
+  const [message, setMessage] = useState(''); // State for feedback messages
+  const [isLoading, setIsLoading] = useState(false); // State for showing loading indicator while generating report
+  const [focusedField, setFocusedField] = useState(''); // State to track which field is currently focused (email or month)
+  const [keyboardInput, setKeyboardInput] = useState(''); // State for virtual keyboard input
+  const [translatedTexts, setTranslatedTexts] = useState({ // State for storing translated text for different UI elements
     title: '',
     selectMonth: '',
     enterEmail: '',
@@ -22,6 +22,7 @@ function AttendanceReport() {
     errorMessage: '',
   });
 
+  // Effect to load translations dynamically based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -36,58 +37,62 @@ function AttendanceReport() {
         successMessage: await translateText('Report sent successfully!', selectedLanguage),
         errorMessage: await translateText('Error sending report', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
-    };
+      setTranslatedTexts(newTexts); // Set the translated texts to state
+    }; 
 
-    loadTranslations();
+    loadTranslations(); // Trigger translation loading on component mount
   }, []);
 
+  // Handles changes in the email input field
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value); // Update email state with user input
     if (focusedField === 'email') {
-      setKeyboardInput(e.target.value);
+      setKeyboardInput(e.target.value); // Sync keyboard input with email field
     }
   };
 
+  // Handles changes in the month input field
   const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value);
+    setSelectedMonth(e.target.value); // Update selected month state with user input
     if (focusedField === 'selectedMonth') {
-      setKeyboardInput(e.target.value);
+      setKeyboardInput(e.target.value); // Sync keyboard input with month field
     }
   };
 
+  // Handles changes in the virtual keyboard input
   const handleKeyboardChange = (input) => {
-    setKeyboardInput(input);
+    setKeyboardInput(input); // Update virtual keyboard input
     if (focusedField === 'email') {
-      setEmail(input);
+      setEmail(input); // Sync email field with keyboard input
     } else if (focusedField === 'selectedMonth') {
-      setSelectedMonth(input);
+      setSelectedMonth(input); // Sync month field with keyboard input
     }
   };
 
+    // Handles the generation of the attendance report
   const handleGenerateReport = () => {
-    if (!email || !selectedMonth) {
-      setMessage(translatedTexts.fillAllFields);
+    if (!email || !selectedMonth) {   // Validation to ensure all required fields are filled
+      setMessage(translatedTexts.fillAllFields); // Show error message if fields are empty
       return;
     }
 
-    setIsLoading(true);
-    setMessage('');
+    setIsLoading(true); // Show loading indicator
+    setMessage(''); // Clear any previous messages
 
-    fetch('http://localhost:500/api/reports/send-report', {
+    // Send a POST request to generate the report
+    fetch('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/reports/send-report', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        guideId: 313393324,
         selectedMonth: selectedMonth,
         email: email,
       }),
     })
       .then((response) => {
         if (response.ok) {
-          return response.json();
+          return response.json(); // Parse JSON if request is successful
         } else {
           throw new Error('Server error');
         }
@@ -103,7 +108,7 @@ function AttendanceReport() {
         setMessage(translatedTexts.errorMessage);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoading(false); // Hide loading indicator
       });
   };
 

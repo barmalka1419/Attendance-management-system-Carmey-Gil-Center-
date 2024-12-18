@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { FaUserTie } from 'react-icons/fa'; // Icon for profile
 import './GuideDashboard.css';
 import { useNavigate } from 'react-router-dom';
-import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
-
+import { translateText } from '../../utils/translation'; 
 function GuideDashboard() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for navigation between pages
   const [translatedTexts, setTranslatedTexts] = useState({
     welcome: '',
     serviceRecipients: '',
@@ -14,6 +13,7 @@ function GuideDashboard() {
     teamManagement: '',
   });
 
+  // Load translations dynamically based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -25,24 +25,28 @@ function GuideDashboard() {
         generateReports: await translateText('Generate Reports', selectedLanguage),
         teamManagement: await translateText('Manage Team', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update the state with translated texts
     };
 
-    loadTranslations();
+    loadTranslations(); // Call the function to load translations
   }, []);
 
+// Navigate to attendance management page  
   const handleAttendanceManagement = () => {
     navigate('/attendance-management');
   };
 
+// Navigate to service recipients management page
   const handleServiceRecipientsManagement = () => {
     navigate('/service-recipients-management');
   };
 
+  // Navigate to reports generation page
   const handleGenerateReports = () => {
     navigate('/report'); // ניווט לדף הפקת הדוחות
   };
 
+  // Navigate to team management page
   const handleTeamManagement = () => {
     navigate('/team-management'); // New path for team management
   };

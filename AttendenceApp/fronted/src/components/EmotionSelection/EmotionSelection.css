@@ -7,13 +7,13 @@
 .emotion-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 50px; /* הגדלת המרווח בין האימוג'ים */
+  gap: 50px; 
   justify-items: center;
 }
 .emotion-selection h2 {
-  color: black !important; /* הבטחת הצבע השחור */
-  font-size: 2em; /* לדוגמה: שינוי גודל הכותרת */
-  margin-bottom: 20px; /* ריווח תחתון */
+  color: black !important; 
+  font-size: 2em; 
+  margin-bottom: 20px;
 }
 
 .emotion-option {
@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 2em; /* גודל הטקסט */
+  font-size: 2em; 
   transition: transform 0.3s;
 }
 
@@ -30,6 +30,6 @@
 }
 
 .emotion-icon {
-  font-size: 4em; /* גודל האימוג'ים */
-  margin-bottom: 15px; /* רווח בין האימוג'י לטקסט */
+  font-size: 4em;
+  margin-bottom: 15px; 
 }

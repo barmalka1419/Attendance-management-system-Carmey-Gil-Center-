@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DeleteGuidePage.css';
-import { translateText } from '../../utils/translation'; // ייבוא פונקציית תרגום
+import { translateText } from '../../utils/translation';
 
 function DeleteGuidePage() {
-  const [guides, setGuides] = useState([]);
-  const [selectedGuideId, setSelectedGuideId] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [guides, setGuides] = useState([]); // State for storing the list of guides
+  const [selectedGuideId, setSelectedGuideId] = useState(''); // State for tracking the selected guide for deletion
+  const [error, setError] = useState(''); // State for displaying error messages
+  const [success, setSuccess] = useState(''); // State for displaying success messages
   const [translatedTexts, setTranslatedTexts] = useState({
     header: '',
     deleteButton: '',
     successMessage: '',
     errorMessage: '',
-  });
+  });// State for storing translated UI texts
 
+  // Effect to fetch the list of guides from the server when the component mounts
   useEffect(() => {
     axios
-      .get('http://localhost:500/api/guides/allguides')
+      .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides')
       .then((response) => {
-        setGuides(response.data);
-        setError('');
+        setGuides(response.data); // Store the fetched guides in state
+        setError(''); // Clear any previous error messages
       })
       .catch((error) => {
         console.error('Error fetching guides:', error);
@@ -28,6 +29,7 @@ function DeleteGuidePage() {
       });
   }, [translatedTexts.errorMessage]);
 
+  // Effect to dynamically load translations based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -38,26 +40,28 @@ function DeleteGuidePage() {
         successMessage: await translateText('Guide deleted successfully', selectedLanguage),
         errorMessage: await translateText('Error loading guides', selectedLanguage),
       };
-      setTranslatedTexts(translations);
+      setTranslatedTexts(translations); // Update the state with translated texts
     };
 
-    loadTranslations();
+    loadTranslations();  // Trigger the translation loading
   }, []);
 
+  // Function to handle guide deletion
   const handleDelete = () => {
     if (!selectedGuideId) {
+      // Ensure a guide is selected before attempting to delete
       setError(translatedTexts.errorMessage || 'נא לבחור מדריך למחיקה');
       return;
     }
 
     axios
-      .delete(`http://localhost:500/api/guides/${selectedGuideId}`)
+      .delete(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/${selectedGuideId}`)
       .then(() => {
         triggerSuccessMessage(translatedTexts.successMessage || 'המדריך נמחק בהצלחה');
         setGuides((prevGuides) =>
-          prevGuides.filter((guide) => guide._id !== selectedGuideId)
+          prevGuides.filter((guide) => guide._id !== selectedGuideId) // Remove the deleted guide from the state
         );
-        setSelectedGuideId('');
+        setSelectedGuideId(''); // Reset the selected guide
       })
       .catch((error) => {
         console.error('Error deleting guide:', error);
@@ -65,11 +69,12 @@ function DeleteGuidePage() {
       });
   };
 
+  // Function to trigger a success message with a timeout
   const triggerSuccessMessage = (message) => {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); // רענון הדף לאחר 3 שניות
+      window.location.reload(); 
     }, 3000);
   };
 

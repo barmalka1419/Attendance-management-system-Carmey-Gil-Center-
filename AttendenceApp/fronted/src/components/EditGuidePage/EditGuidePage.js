@@ -6,19 +6,20 @@ import './EditGuidePage.css';
 import { translateText } from '../../utils/translation'; // ייבוא פונקציית תרגום
 
 function EditGuidePage() {
-  const [guides, setGuides] = useState([]);
-  const [selectedGuide, setSelectedGuide] = useState(null);
+  const [guides, setGuides] = useState([]); // State to hold the list of guides
+  const [selectedGuide, setSelectedGuide] = useState(null); // State to hold the currently selected guide for editing
   const [formData, setFormData] = useState({
     id: '',
     name: '',
     email: '',
     password: '',
     imageUrl: '',
-  });
-  const [focusedField, setFocusedField] = useState('');
-  const [keyboardInput, setKeyboardInput] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  }); // State to hold the form data for the selected guide
+
+  const [focusedField, setFocusedField] = useState(''); // State to track the currently focused input field
+  const [keyboardInput, setKeyboardInput] = useState(''); // State for the virtual keyboard input
+  const [error, setError] = useState(''); // State for error messages
+  const [success, setSuccess] = useState(''); // State for success messages
   const [translatedTexts, setTranslatedTexts] = useState({
     header: '',
     idLabel: '',
@@ -27,20 +28,21 @@ function EditGuidePage() {
     passwordLabel: '',
     imageUrlLabel: '',
     saveButton: '',
-  });
+  }); // State to hold translated text for the UI
 
-  // Fetch guides
+
+  // Fetch the list of guides on component mount
   useEffect(() => {
     axios
-      .get('http://localhost:500/api/guides/allguides')
-      .then((response) => setGuides(response.data))
+      .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides')
+      .then((response) => setGuides(response.data)) // Store the fetched guides in state
       .catch((error) => {
         console.error('Error fetching guides:', error);
         setError('שגיאה בטעינת רשימת המדריכים');
       });
   }, []);
 
-  // Load translations based on selected language
+  //  // Load translations dynamically based on the selected language
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
@@ -54,48 +56,52 @@ function EditGuidePage() {
         imageUrlLabel: await translateText('Profile Image (URL)', selectedLanguage),
         saveButton: await translateText('Save Changes', selectedLanguage),
       };
-      setTranslatedTexts(translations);
+      setTranslatedTexts(translations);  // Update the translations state
     };
 
     loadTranslations();
   }, []);
 
+  // Handle changes from the virtual keyboard
   const handleKeyboardChange = (input) => {
-    setKeyboardInput(input);
+    setKeyboardInput(input); // Update the keyboard input state
     if (focusedField) {
-      setFormData((prev) => ({ ...prev, [focusedField]: input }));
+      setFormData((prev) => ({ ...prev, [focusedField]: input })); // Update the corresponding form field
     }
   };
 
+  // Handle changes in the form inputs
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value })); // Update the form data state
     if (name === focusedField) {
-      setKeyboardInput(value);
+      setKeyboardInput(value); // Sync the virtual keyboard input
     }
   };
 
+  // Handle the selection of a guide for editing
   const handleGuideSelection = (guide) => {
-    setSelectedGuide(guide);
+    setSelectedGuide(guide); // Set the selected guide in state
     setFormData({
       id: guide.id,
       name: guide.name,
       email: guide.email,
       password: guide.password,
       imageUrl: guide.imageUrl,
-    });
+    }); // Populate the form with the selected guide's data
   };
 
+  // Handle form submission to save changes
   const handleSubmit = (event) => {
-    event.preventDefault();
-
+    event.preventDefault(); // Prevent the default form submission behavior
     if (!formData.id || !formData.name || !formData.email || !formData.password || !formData.imageUrl) {
       setError('נא למלא את כל השדות');
       return;
     }
 
+    // Send updated guide data to the server
     axios
-      .put(`http://localhost:500/api/guides/${selectedGuide._id}`, formData)
+      .put(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/${selectedGuide._id}`, formData)
       .then(() => {
         triggerSuccessMessage(translatedTexts.saveButton);
       })
@@ -105,11 +111,12 @@ function EditGuidePage() {
       });
   };
 
+  // Display a success message and refresh the page
   const triggerSuccessMessage = (message) => {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); // רענון הדף לאחר 3 שניות
+      window.location.reload(); 
     }, 3000);
   };
 

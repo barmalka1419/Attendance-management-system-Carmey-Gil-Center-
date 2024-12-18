@@ -4,22 +4,23 @@ import Keyboard from 'react-simple-keyboard';
 import Select from 'react-select';
 import 'react-simple-keyboard/build/css/index.css';
 import './EditRecipientPage.css';
-import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
+import { translateText } from '../../utils/translation'; 
 
 function EditRecipientPage() {
-  const [recipients, setRecipients] = useState([]);
-  const [guides, setGuides] = useState([]);
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [recipients, setRecipients] = useState([]);  // State to hold the list of service recipients
+  const [guides, setGuides] = useState([]); // State to hold the list of guides
+  const [selectedRecipient, setSelectedRecipient] = useState(null); // State to hold the currently selected recipient
   const [formData, setFormData] = useState({
     id: '',
     name: '',
     imageUrl: '',
     groupId: '',
     guideId: '',
-  });
-  const [focusedField, setFocusedField] = useState('');
-  const [keyboardInput, setKeyboardInput] = useState('');
-  const [error, setError] = useState('');
+  }); // State to manage the form data for editing
+
+  const [focusedField, setFocusedField] = useState(''); // State to track the currently focused input field
+  const [keyboardInput, setKeyboardInput] = useState(''); // State for the virtual keyboard input
+  const [error, setError] = useState(''); // State for error messages
   const [success, setSuccess] = useState('');
   const [translatedTexts, setTranslatedTexts] = useState({
     editRecipientTitle: '',
@@ -34,12 +35,14 @@ function EditRecipientPage() {
     fillAllFields: '',
     successMessage: '',
     errorUpdating: '',
-  });
+  });// State to store translated text for the UI
 
+
+  // Fetch the recipients and guides when the component mounts
   useEffect(() => {
     // Fetch recipients and guides
     axios
-      .get('http://localhost:500/api/recipients/all_patients')
+      .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/all_patients')
       .then((response) => setRecipients(response.data))
       .catch((error) => {
         console.error('Error fetching recipients:', error);
@@ -47,7 +50,7 @@ function EditRecipientPage() {
       });
 
     axios
-      .get('http://localhost:500/api/guides/allguides')
+      .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides')
       .then((response) => setGuides(response.data))
       .catch((error) => {
         console.error('Error fetching guides:', error);
@@ -71,33 +74,37 @@ function EditRecipientPage() {
         successMessage: await translateText('Recipient updated successfully!', selectedLanguage),
         errorUpdating: await translateText('Error updating recipient', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Update the translated texts state
     };
 
-    loadTranslations();
+    loadTranslations(); // Call the translation function
   }, []);
 
+  // Handle changes in the virtual keyboard input
   const handleKeyboardChange = (input) => {
-    setKeyboardInput(input);
+    setKeyboardInput(input); // Update the keyboard input state
     if (focusedField) {
-      setFormData((prev) => ({ ...prev, [focusedField]: input }));
+      setFormData((prev) => ({ ...prev, [focusedField]: input })); // Update the corresponding field in formData
     }
   };
 
+  // Handle input field changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value })); // Update the form data state
     if (name === focusedField) {
-      setKeyboardInput(value);
+      setKeyboardInput(value); // Sync the virtual keyboard input
     }
   };
 
+  // Handle changes in the guide selection dropdown 
   const handleGuideChange = (selectedOption) => {
-    setFormData((prev) => ({ ...prev, guideId: selectedOption.value }));
+    setFormData((prev) => ({ ...prev, guideId: selectedOption.value })); // Update the guideId in formData
   };
 
+  // Handle form submission to update the recipient
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission behavior
 
     if (!formData.id || !formData.name || !formData.imageUrl || !formData.groupId || !formData.guideId) {
       setError(translatedTexts.fillAllFields);
@@ -105,7 +112,7 @@ function EditRecipientPage() {
     }
 
     axios
-      .put(`http://localhost:500/api/recipients/${selectedRecipient._id}`, formData)
+      .put(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/${selectedRecipient._id}`, formData)
       .then(() => {
         triggerSuccessMessage(translatedTexts.successMessage);
       })
@@ -114,7 +121,7 @@ function EditRecipientPage() {
         setError(translatedTexts.errorUpdating);
       });
   };
-
+  // Display a success message and refresh the page after a delay
   const triggerSuccessMessage = (message) => {
     setSuccess(message);
     setTimeout(() => {
@@ -123,6 +130,7 @@ function EditRecipientPage() {
     }, 3000);
   };
 
+  // Generate options for the guide dropdown
   const guideOptions = guides.map((guide) => ({
     value: guide._id,
     label: `${guide.name} (${guide.id})`,

@@ -95,6 +95,17 @@
   margin-bottom: 5px;
 }
 
+.record-details[dir='rtl'] {
+  text-align: right;
+  direction: rtl;
+}
+
+.record-details[dir='ltr'] {
+  text-align: left;
+  direction: ltr;
+}
+
+
 .record-score {
   font-size: 1em;
   color: #333;

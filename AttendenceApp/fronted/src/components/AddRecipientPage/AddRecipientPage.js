@@ -4,7 +4,7 @@ import Select from 'react-select';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import './AddRecipientPage.css';
-import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
+import { translateText } from '../../utils/translation'; 
 
 function AddRecipientPage() {
   const [guides, setGuides] = useState([]);
@@ -32,13 +32,14 @@ function AddRecipientPage() {
   // Fetch guides on component mount
   useEffect(() => {
     axios
-      .get('http://localhost:500/api/guides/allguides')
+      .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides')
       .then((response) => setGuides(response.data))
       .catch((error) => {
         console.error('Error fetching guides:', error);
         setError('שגיאה בטעינת רשימת המדריכים');
       });
 
+    // Load translations for the selected language
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
 
     const loadTranslations = async () => {
@@ -51,22 +52,23 @@ function AddRecipientPage() {
         guideSelectionLabel: await translateText('Select Guide', selectedLanguage),
         submitButton: await translateText('Add Recipient', selectedLanguage),
       };
-      setTranslatedTexts(newTexts);
+      setTranslatedTexts(newTexts); // Updates the text with translated labels
     };
 
-    loadTranslations();
+    loadTranslations(); // Asynchronous function to handle translations
   }, []);
 
+  // focusedField is the current field in the form that the user is focus on
   const handleKeyboardChange = (input) => {
-    setKeyboardInput(input);
+    setKeyboardInput(input); // Updates the virtual keyboard input
     if (focusedField) {
-      setFormData((prev) => ({ ...prev, [focusedField]: input }));
+      setFormData((prev) => ({ ...prev, [focusedField]: input }));  // Syncs keyboard input with the focused form field
     }
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value })); // Updates the selected guide in the form data
     if (name === focusedField) {
       setKeyboardInput(value);
     }
@@ -79,13 +81,16 @@ function AddRecipientPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+
+    // Validation: Ensure all required fields are filled
     if (!formData.id || !formData.name || !formData.imageUrl || !formData.groupId || !formData.guideId) {
       setError('נא למלא את כל השדות');
       return;
     }
 
+    // Sends the form data to the server
     axios
-      .post('http://localhost:500/api/recipients/addNewRecipient', formData)
+      .post('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/addNewRecipient', formData)
       .then(() => {
         triggerSuccessMessage('מקבל השירות נוסף בהצלחה!');
         setFormData({ id: '', name: '', imageUrl: '', groupId: '', guideId: '' });
@@ -97,13 +102,14 @@ function AddRecipientPage() {
   };
 
   const triggerSuccessMessage = (message) => {
-    setSuccess(message);
+    setSuccess(message); // Temporarily displays success message
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); // רענון הדף לאחר 3 שניות
+      window.location.reload(); // Refreshes the page after 3 seconds
     }, 3000);
   };
 
+    // Maps guides into options for the dropdown menu
   const guideOptions = guides.map((guide) => ({
     value: guide._id,
     label: `${guide.name} (${guide.id})`,
@@ -120,7 +126,7 @@ function AddRecipientPage() {
             id="id"
             name="id"
             value={formData.id}
-            onFocus={() => setFocusedField('id')}
+            onFocus={() => setFocusedField('id')}  //Tracks the focused field for virtual keyboard interaction
             onChange={handleInputChange}
             required
           />
@@ -166,7 +172,7 @@ function AddRecipientPage() {
           <Select
             id="guideSelection"
             options={guideOptions}
-            value={guideOptions.find((option) => option.value === formData.guideId)}
+            value={guideOptions.find((option) => option.value === formData.guideId)} // Automatically selects the guide if already chosen
             onChange={handleGuideSelection}
             isSearchable
             placeholder={translatedTexts.guideSelectionLabel}
@@ -208,7 +214,7 @@ function AddRecipientPage() {
           input={keyboardInput}
           onKeyPress={(button) => {
             if (button === '{bksp}') {
-              handleKeyboardChange(keyboardInput.slice(0, -1));
+              handleKeyboardChange(keyboardInput.slice(0, -1)); // Handles the backspace button functionality for the virtual keyboard
             }
           }}
         />
