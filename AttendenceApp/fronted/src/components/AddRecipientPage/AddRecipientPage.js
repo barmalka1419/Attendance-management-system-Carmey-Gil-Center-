@@ -105,7 +105,7 @@ function AddRecipientPage() {
     setSuccess(message); // Temporarily displays success message
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); // Refreshes the page after 3 seconds
+      // Refreshes the page after 3 seconds
     }, 3000);
   };
 
