@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DeleteRecipientPage.css';
 import { translateText } from '../../utils/translation'; // ייבוא פונקציית התרגום
+import { useParams, useNavigate } from 'react-router-dom';
 
 function DeleteRecipientPage() {
   const [recipients, setRecipients] = useState([]); // State to store the list of recipients
@@ -48,7 +49,7 @@ function DeleteRecipientPage() {
 
     loadTranslations();  // Trigger the translation loading
   }, []);
-
+  const navigate = useNavigate();  // React Router hook for navigation
   // Function to handle deletion of a recipient
   const handleDelete = () => {
     if (!selectedRecipientId) {
@@ -77,7 +78,8 @@ function DeleteRecipientPage() {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      window.location.reload(); 
+      navigate('/')
+      
     }, 2000);
   };
 

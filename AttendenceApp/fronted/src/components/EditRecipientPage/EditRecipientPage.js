@@ -5,6 +5,7 @@ import Select from 'react-select';
 import 'react-simple-keyboard/build/css/index.css';
 import './EditRecipientPage.css';
 import { translateText } from '../../utils/translation'; 
+import { useParams, useNavigate } from 'react-router-dom';
 
 function EditRecipientPage() {
   const [recipients, setRecipients] = useState([]);  // State to hold the list of service recipients
@@ -87,6 +88,7 @@ function EditRecipientPage() {
       setFormData((prev) => ({ ...prev, [focusedField]: input })); // Update the corresponding field in formData
     }
   };
+  const navigate = useNavigate();  // React Router hook for navigation
 
   // Handle input field changes
   const handleInputChange = (event) => {
@@ -126,7 +128,7 @@ function EditRecipientPage() {
     setSuccess(message);
     setTimeout(() => {
       setSuccess('');
-      window.location.reload();
+      navigate('/'); // Refreshes the page after 3 seconds
     }, 3000);
   };
 
