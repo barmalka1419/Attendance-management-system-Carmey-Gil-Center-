@@ -92,7 +92,7 @@ function AddRecipientPage() {
     axios
       .post('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/recipients/addNewRecipient', formData)
       .then(() => {
-        triggerSuccessMessage('מקבל השירות נוסף בהצלחה!');
+       // triggerSuccessMessage('מקבל השירות נוסף בהצלחה!');
         setFormData({ id: '', name: '', imageUrl: '', groupId: '', guideId: '' });
       })
       .catch((error) => {
