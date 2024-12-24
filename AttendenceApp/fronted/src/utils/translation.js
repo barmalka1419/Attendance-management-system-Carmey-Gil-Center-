@@ -9,7 +9,7 @@ export async function translateText(text, targetLang = null) {
       return data[0][0][0];
     } catch (error) {
       console.error('Error translating text:', error);
-      return text; // במקרה של שגיאה, החזר את הטקסט המקורי
+      return text; 
     }
   }
   
