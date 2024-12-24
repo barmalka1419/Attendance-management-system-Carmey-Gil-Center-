@@ -55,10 +55,9 @@ app.post('/api/sendEmail', (req, res) => {
     to: 'barmalka1419@gmail.com',  // report emotion mail
     subject: 'דיווח על מצב רגשי חשוד',
     text: `
-        הודעה זו נשלחה בעקבות בחירת אימוג'י חשוד על ידי המטופל.
-        פרטי המטופל:
+        הודעה זו נשלחה בעקבות בחירת אימוג'י חשוד על ידי המטופל
         שם: ${patientName}
-        מזהה: ${patientId}
+        תעודת זהות: ${patientId}
         הרגש שנבחר: ${emotion}
     `,    
   };
