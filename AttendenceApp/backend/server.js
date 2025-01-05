@@ -76,7 +76,7 @@ app.post('/api/sendEmail', (req, res) => {
 
 
 
-const port = 5000;
+const port = 10000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

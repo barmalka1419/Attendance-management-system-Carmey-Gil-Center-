@@ -66,13 +66,13 @@ function AttendanceManagement() {
         errorMessage2: await translateText('Date and Check-In Time are required', selectedLanguage),
 
       };
-      setTranslatedTexts(translations); // Updates the state with the translated texts
-
+      setTranslatedTexts(translations); // Updates the state with the translated textsד
     };
     loadTranslations();
   }, []);
 
   // Fetches all patients when the component mounts
+
   useEffect(() => {
     axios.get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/patients/all_patients')
       .then((response) => {
