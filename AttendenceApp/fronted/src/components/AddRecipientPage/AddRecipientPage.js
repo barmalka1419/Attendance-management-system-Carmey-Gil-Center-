@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Select from 'react-select';
-import Keyboard from 'react-simple-keyboard';
-import 'react-simple-keyboard/build/css/index.css';
-import './AddRecipientPage.css';
-import { translateText } from '../../utils/translation'; 
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; // Importing React and hooks for state and lifecycle management.
+import axios from 'axios';  // Importing Axios for making HTTP requests.
+import Select from 'react-select';  // Importing a dropdown component for selecting options.
+import Keyboard from 'react-simple-keyboard'; // Importing a virtual keyboard component.
+import 'react-simple-keyboard/build/css/index.css'; // Importing styles for the virtual keyboard.
+import './AddRecipientPage.css'; // Importing styles for this component.
+import { translateText } from '../../utils/translation'; // Importing the text translation function.
+import { useParams, useNavigate } from 'react-router-dom'; // React Router hooks for parameters and navigation.
 
 
 function AddRecipientPage() {
-  const [guides, setGuides] = useState([]);
-  const [formData, setFormData] = useState({
+  const [guides, setGuides] = useState([]);  // State to store the list of guides.
+
+  const [formData, setFormData] = useState({  // State to store form data for the new recipient.
     id: '',
     name: '',
     imageUrl: '',
     groupId: '',
     guideId: '',
   });
-  const [focusedField, setFocusedField] = useState('');
-  const [keyboardInput, setKeyboardInput] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [translatedTexts, setTranslatedTexts] = useState({
+  const [focusedField, setFocusedField] = useState(''); // State to track the currently focused field.
+  const [keyboardInput, setKeyboardInput] = useState(''); // State to handle input from the virtual keyboard.
+  const [error, setError] = useState(''); // State to store error messages.
+  const [success, setSuccess] = useState(''); // State to store success messages.
+  const [translatedTexts, setTranslatedTexts] = useState({ // State to store translated labels for the form.
     title: '',
     idLabel: '',
     nameLabel: '',
@@ -35,7 +36,7 @@ function AddRecipientPage() {
   useEffect(() => {
     axios
       .get('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides')
-      .then((response) => setGuides(response.data))
+      .then((response) => setGuides(response.data)) // Update the guides state with fetched data.
       .catch((error) => {
         console.error('Error fetching guides:', error);
         setError('שגיאה בטעינת רשימת המדריכים');
@@ -68,22 +69,25 @@ function AddRecipientPage() {
     }
   };
 
+    // Handles changes to form fields
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target; // Get field name and value.
     setFormData((prev) => ({ ...prev, [name]: value })); // Updates the selected guide in the form data
     if (name === focusedField) {
-      setKeyboardInput(value);
+      setKeyboardInput(value); // Sync virtual keyboard input with the form field.
     }
   };
 
+    // Handles guide selection from the dropdown
   const handleGuideSelection = (selectedOption) => {
-    setFormData((prev) => ({ ...prev, guideId: selectedOption.value }));
+    setFormData((prev) => ({ ...prev, guideId: selectedOption.value }));  // Update the selected guide in form data.
   };
   const navigate = useNavigate();  // React Router hook for navigation
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
+   // Handles form submission
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior.
 
     // Validation: Ensure all required fields are filled
     if (!formData.id || !formData.name || !formData.imageUrl || !formData.groupId || !formData.guideId) {
@@ -107,14 +111,14 @@ function AddRecipientPage() {
   const triggerSuccessMessage = (message) => {
     setSuccess(message); // Temporarily displays success message
     setTimeout(() => {
-      setSuccess('');
+      setSuccess(''); // Clear success message after 3 seconds.
     }, 3000);
   };
 
     // Maps guides into options for the dropdown menu
   const guideOptions = guides.map((guide) => ({
-    value: guide._id,
-    label: `${guide.name} (${guide.id})`,
+    value: guide._id,  // Guide ID used as the value.
+    label: `${guide.name} (${guide.id})`, // Display name and id for the dropdown.
   }));
 
   return (
