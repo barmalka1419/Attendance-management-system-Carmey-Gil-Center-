@@ -3,8 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import GuideSelectionPage from './components/GuideSelectionPage/GuideSelectionPage';
-import PatientSelectionPage from './components/PatientSelectionPage/PatientSelectionPage'; // ייבוא דף הפציינטים
-import TeamLoginPage from './components/TeamLoginPage/TeamLoginPage'; // ייבוא דף ההתחברות
+import PatientSelectionPage from './components/PatientSelectionPage/PatientSelectionPage'; 
+import TeamLoginPage from './components/TeamLoginPage/TeamLoginPage'; 
 import GuideDashboard from './components/GuideDashboard/GuideDashboard';
 import AttendanceManagement from './components/AttendanceManagement/AttendanceManagement'
 import AddRecipientPage from './components/AddRecipientPage/AddRecipientPage';
@@ -14,8 +14,8 @@ import EditRecipientPage from './components/EditRecipientPage/EditRecipientPage'
 import TeamManagementPage from './components/TeamManagementPage/TeamManagementPage';
 import EditGuidePage from './components/EditGuidePage/EditGuidePage';
 import DeleteGuidePage from './components/DeleteGuidePage/DeleteGuidePage';
-import AddTeamMemberPage from './components/AddTeamMemberPage/AddTeamMemberPage'; // יבוא של הדף המתאים
-import ReportPage from './components/AttendanceReport/AttendanceReport'; // ייבוא של דף הפקת הדוחות
+import AddTeamMemberPage from './components/AddTeamMemberPage/AddTeamMemberPage'; 
+import ReportPage from './components/AttendanceReport/AttendanceReport'; 
 
 function App() {
   return (
@@ -23,7 +23,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/guide-selection" element={<GuideSelectionPage />} />
-        {/* נתיב חדש לדף הפציינטים עם guideId דינמי */}
         <Route path="/patients/:guideId" element={<PatientSelectionPage />} />
         <Route path="/team-login" element={<TeamLoginPage />} /> {/* נתיב חדש */}
         <Route path="/guide-dashboard" element={<GuideDashboard />} />

@@ -1,5 +1,5 @@
 export function speakText(text, language = 'he') {
-  const synth = window.speechSynthesis; // Access the browser's speech synthesis API.
+  const synth = window.speechSynthesis; // Access the browser's speech synthesis API.  Web Speech API
 
   // Function to load available voices
   const loadVoices = () => {
