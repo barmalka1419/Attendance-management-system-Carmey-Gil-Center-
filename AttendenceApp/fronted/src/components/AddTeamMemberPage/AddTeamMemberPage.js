@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Keyboard from 'react-simple-keyboard';
-import 'react-simple-keyboard/build/css/index.css';
-import './AddTeamMemberPage.css';
-import { translateText } from '../../utils/translation'; // פונקציית תרגום
+import React, { useState, useEffect } from 'react'; // Import React and hooks for state management and lifecycle handling.
+import axios from 'axios'; // Import Axios for making HTTP requests.
+import Keyboard from 'react-simple-keyboard'; // Import the virtual keyboard component.
+import 'react-simple-keyboard/build/css/index.css'; // Import the CSS styles for the virtual keyboard.
+import './AddTeamMemberPage.css';  // Import the custom CSS for styling the page.
+import { translateText } from '../../utils/translation';  // Import the `translateText` utility function for text translations.
 
 function AddTeamMemberPage() {
-    // State to manage form data and other UI elements
+  // **State variables** for managing component data and UI behavior.
 
   const [formData, setFormData] = useState({
     id: '',
@@ -14,7 +14,10 @@ function AddTeamMemberPage() {
     email: '',
     password: '',
     imageUrl: '',
+
   }); 
+    // Holds form data for each input field.
+
   const [focusedField, setFocusedField] = useState('');    // Tracks the current focused form field
   const [keyboardInput, setKeyboardInput] = useState(''); // Tracks the virtual keyboard input
   const [error, setError] = useState('');                // Error message state
@@ -52,7 +55,8 @@ function AddTeamMemberPage() {
     };
 
     loadTranslations();
-  }, []);
+  }, []);  // The empty dependency array ensures this effect runs only once, on mount.
+
 
   const handleKeyboardChange = (input) => {
     setKeyboardInput(input); // Updates the virtual keyboard input state
@@ -70,7 +74,9 @@ function AddTeamMemberPage() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+
+    event.preventDefault(); // Prevents the default form submission behavior.
+
 
     const { id, name, email, password, imageUrl } = formData;
 
@@ -98,7 +104,7 @@ function AddTeamMemberPage() {
     setSuccess(message);  // Temporarily displays the success message
     setTimeout(() => {
       setSuccess('');
-    }, 3000);
+    }, 3000); // Clears the message after 3 seconds.
   };
 
   return (
