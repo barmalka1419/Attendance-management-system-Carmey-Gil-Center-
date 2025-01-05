@@ -62,17 +62,18 @@ function GuideSelectionPage() {
       <div className="guide-grid">
         {Array.isArray(guides) &&
           guides.map((guide) => (
-            <img
-              key={guide._id}
-              src={guide.imageUrl}
-              alt={guide.name}
-              className="guide-image"
-              onClick={() => handleGuideSelection(guide._id, guide.name)}
-            />
+            <div key={guide._id} className="guide-card">
+              <img
+                src={guide.imageUrl}
+                alt={guide.name}
+                className="guide-image"
+                onClick={() => handleGuideSelection(guide._id, guide.name)}
+              />
+              <p className="guide-name">{guide.name}</p> {/* Display the guide's name */}
+            </div>
           ))}
       </div>
     </div>
   );
 }
-
 export default GuideSelectionPage;
