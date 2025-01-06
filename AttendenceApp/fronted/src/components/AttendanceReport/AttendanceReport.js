@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Keyboard from 'react-simple-keyboard';
-import 'react-simple-keyboard/build/css/index.css';
-import './AttendanceReport.css'; 
-import { translateText } from '../../utils/translation'; 
+import 'react-simple-keyboard/build/css/index.css'; // For making HTTP requests.
+import './AttendanceReport.css';  // Importing styles for the component.
+import { translateText } from '../../utils/translation';  // Utility function for dynamic translations.
 
 function AttendanceReport() {
   const [email, setEmail] = useState('');   // State for email input

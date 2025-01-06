@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './AttendanceManagement.css';
-import { translateText } from '../../utils/translation'; 
+import React, { useState, useEffect } from 'react';  // React hooks for state and lifecycle management.
+import axios from 'axios'; // For making HTTP requests.
+import './AttendanceManagement.css'; // Importing styles for the component.
+import { translateText } from '../../utils/translation'; // Utility function for dynamic translations.
+
+// Attendance management component for handling attendance records.
 function AttendanceManagement() {
-  const [patients, setPatients] = useState([]);
-  const [selectedPatientId, setSelectedPatientId] = useState('');
+  // State management for handling patients, attendance, and UI interactions.
+  const [patients, setPatients] = useState([]); // List of patients.
+  const [selectedPatientId, setSelectedPatientId] = useState(''); // Currently selected patient ID.
   const [attendanceRecords, setAttendanceRecords] = useState([]);
-  const [filterDate, setFilterDate] = useState('');
+  const [filterDate, setFilterDate] = useState('');  // Date filter for attendance records.
   const [editingScore, setEditingScore] = useState(null); 
 
   const [newAttendance, setNewAttendance] = useState({
@@ -17,6 +20,7 @@ function AttendanceManagement() {
   const [editingRecord, setEditingRecord] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+    // Translated texts for multi-language support.
   const [translatedTexts, setTranslatedTexts] = useState({
     selectPatient: '',
     attendanceRecords: '',
@@ -69,7 +73,7 @@ function AttendanceManagement() {
       setTranslatedTexts(translations); // Updates the state with the translated textsד
     };
     loadTranslations();
-  }, []);
+  }, []); // for unsure that will be happen only once
 
   // Fetches all patients when the component mounts
 
@@ -157,7 +161,7 @@ function AttendanceManagement() {
       });
   };
 
-
+  // Handle editing an existing attendance record.
   const handleEditAttendance = (record) => {
     const formattedRecord = {
       ...record,
@@ -165,9 +169,10 @@ function AttendanceManagement() {
       checkOutTime: record.checkOutTime ? formatTimeTo24Hr(record.checkOutTime) : '',
     }; // Prepares the record for editing
 
-    setEditingRecord(formattedRecord);
+    setEditingRecord(formattedRecord); // Store the record in state for editing.
   };
 
+    // Handle updating an edited attendance record.
   const handleUpdateAttendance = () => {
     const updatedRecord = {
       ...editingRecord,
