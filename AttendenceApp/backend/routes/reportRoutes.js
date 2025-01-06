@@ -88,19 +88,7 @@ const generateExcelReport = async (selectedMonth) => {
 
       wsData.push(row);  // Add the completed row to the worksheet data.
 
-      // Highlight weekends in yellow for better visibility.
-      const dateCell = `A${day + 1}`;
-      if (currentDate.getDay() === 5 || currentDate.getDay() === 6) {
-        wsStyles[dateCell] = { fill: { fgColor: { rgb: 'FFFF00' } } }; 
-      }
-
-      // Highlight missing attendance in red for quick identification.
-      guideData.attendance.forEach((_, col) => {
-        const cell = XLSX.utils.encode_cell({ c: col * 2 + 1, r: day });
-        if (row[col * 2 + 1] === 'אין נוכחות') {
-          wsStyles[cell] = { fill: { fgColor: { rgb: 'FF0000' } } }; // אדום
-        }
-      });
+ 
     }
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);  // Create worksheet from data.
