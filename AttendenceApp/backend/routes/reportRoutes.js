@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express'); // Import the Express library to create routes and handle HTTP requests.
+const router = express.Router();  // Create a new router for handling specific routes.
 const nodemailer = require('nodemailer');// For sending emails
 const XLSX = require('xlsx'); // For creating Excel reports
 const Patient = require('../models/Patient'); // Model for service recipients (patients)
@@ -19,27 +19,27 @@ const getAllAttendanceData = async (selectedMonth) => {
       for (const patient of patients) {
         // Filter attendance records by the selected month and year
         const patientAttendance = patient.attendance.filter(att => {
-          const attDate = new Date(att.date);
+          const attDate = new Date(att.date); // Convert attendance date to a Date object.
           return (
-            attDate.getMonth() === new Date(selectedMonth).getMonth() &&
-            attDate.getFullYear() === new Date(selectedMonth).getFullYear()
+            attDate.getMonth() === new Date(selectedMonth).getMonth() && // Check if the month matches.
+            attDate.getFullYear() === new Date(selectedMonth).getFullYear() // Check if the year matches.
           );
         });
 
-// Add attendance data for the patient
+// Add attendance data for the patient to the guide's attendance.
         guideAttendance.push({
           patientName: patient.name,
           attendance: patientAttendance,
         });
       }
-// Add attendance data for the guide
+ // Add the current guide's attendance data to the main array.
       attendanceData.push({
         guideName: guide.name,
         attendance: guideAttendance,
       });
     }
 
-    return attendanceData;
+    return attendanceData; // Return the collected attendance data.
   } catch (error) {
     console.error(`Error fetching attendance data: ${error.message}`);
     throw new Error('Failed to fetch attendance data');
@@ -48,7 +48,7 @@ const getAllAttendanceData = async (selectedMonth) => {
 
 // Function to generate an Excel report based on attendance data
 const generateExcelReport = async (selectedMonth) => {
-  const attendanceData = await getAllAttendanceData(selectedMonth); // Fetch attendance data
+  const attendanceData = await getAllAttendanceData(selectedMonth); // Fetch attendance data for the selected month.
   const wb = XLSX.utils.book_new(); // Create a new workbook
 
   attendanceData.forEach((guideData) => {
@@ -58,22 +58,25 @@ const generateExcelReport = async (selectedMonth) => {
       ['תאריך', ...guideData.attendance.flatMap(p => [p.patientName, `ציון עבור ${p.patientName}`])]
     ];
 
-    const daysInMonth = new Date(new Date(selectedMonth).getFullYear(), new Date(selectedMonth).getMonth() + 1, 0).getDate();
-    const wsStyles = {}; // Styles for Excel cells
+    const daysInMonth = new Date(new Date(selectedMonth).getFullYear(), new Date(selectedMonth).getMonth() + 1, 0).getDate(); // Get the number of days in the selected month by creating a Date object for the last day of the month.
 
+    const wsStyles = {}; // Initialize styles for the worksheet.
+
+      // Populate the worksheet with attendance data for each day of the month.
     for (let day = 1; day <= daysInMonth; day++) {
       const currentDate = new Date(new Date(selectedMonth).getFullYear(), new Date(selectedMonth).getMonth(), day);
-      const formattedDate = currentDate.toLocaleDateString('he-IL'); // Format the date for the report
-      const row = [formattedDate];
+      const formattedDate = currentDate.toLocaleDateString('he-IL'); // Format date as DD/MM/YYYY (Hebrew locale).
+      const row = [formattedDate]; // Start a new row with the current date.
 
       guideData.attendance.forEach(patient => {
+         // Find attendance data for the current day, if available.
         const attendanceRecord = patient.attendance.find(att => {
           const attDate = new Date(att.date);
           return attDate.getDate() === currentDate.getDate();
         });
 
         if (attendanceRecord) {
-          const checkInTime = attendanceRecord.checkInTime || '--:--';
+          const checkInTime = attendanceRecord.checkInTime || '--:--'; // Check-in time or placeholder.
           const checkOutTime = attendanceRecord.checkOutTime || '--:--';
           row.push(`נכח : ${checkInTime}-${checkOutTime}`);
           row.push(attendanceRecord.score ?? ''); // Add score or leave blank if not available
@@ -83,15 +86,15 @@ const generateExcelReport = async (selectedMonth) => {
         }
       });
 
-      wsData.push(row);
+      wsData.push(row);  // Add the completed row to the worksheet data.
 
-     // Highlight weekends in yellow
+      // Highlight weekends in yellow for better visibility.
       const dateCell = `A${day + 1}`;
       if (currentDate.getDay() === 5 || currentDate.getDay() === 6) {
         wsStyles[dateCell] = { fill: { fgColor: { rgb: 'FFFF00' } } }; 
       }
 
-      // Highlight missing attendance in red
+      // Highlight missing attendance in red for quick identification.
       guideData.attendance.forEach((_, col) => {
         const cell = XLSX.utils.encode_cell({ c: col * 2 + 1, r: day });
         if (row[col * 2 + 1] === 'אין נוכחות') {
@@ -100,18 +103,18 @@ const generateExcelReport = async (selectedMonth) => {
       });
     }
 
-    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    const ws = XLSX.utils.aoa_to_sheet(wsData);  // Create worksheet from data.
 
     // Apply styles to the worksheet
     Object.keys(wsStyles).forEach(cell => {
-      if (!ws[cell]) ws[cell] = {};
-      ws[cell].s = wsStyles[cell];
+      if (!ws[cell]) ws[cell] = {}; // Initialize cell if not defined.
+      ws[cell].s = wsStyles[cell]; // Apply styles.
     });
 
     XLSX.utils.book_append_sheet(wb, ws, guideData.guideName); // Add the worksheet to the workbook
   });
 
-  return wb;
+  return wb;  // Return the generated workbook.
 };
 
 // Function to send an email with the Excel report as an attachment
@@ -145,11 +148,11 @@ const sendEmailWithAttachment = async (filePath, email) => {
 // Used in AttendanceReport
 router.post('/send-report', async (req, res) => {
   try {
-    const { selectedMonth, email } = req.body;
+    const { selectedMonth, email } = req.body; // Extract the selected month and email from the request.
     const wb = await generateExcelReport(selectedMonth);
 
     const filePath = `./attendance-report.xlsx`;
-    XLSX.writeFile(wb, filePath);
+    XLSX.writeFile(wb, filePath); // Write the workbook to a file.
 
     await sendEmailWithAttachment(filePath, email);
 
