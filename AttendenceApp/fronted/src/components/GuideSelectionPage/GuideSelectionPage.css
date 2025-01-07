@@ -207,12 +207,15 @@ h3 {
 
 
   .guide-image1{
-    width: 120px;
-    height: 120px;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease; 
   }
 }
 
-.guide-card {
+.guide-card1 {
+  display: flex;
   width: 250px;
   height: 250px;
   display: flex;
@@ -224,14 +227,14 @@ h3 {
   transition: transform 0.3s ease;
 }
 
-.guide-card:hover {
+.guide-card1:hover {
   transform: scale(1.1);
 }
 
 .guide-grid1 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 25px;
   margin: 20px 0;
 }
 
