@@ -33,9 +33,11 @@ function GuideSelectionPage() {
   useEffect(() => {
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
   
-    fetch('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides')
-      .then((response) => response.json())
-      .then(async (data) => {
+    const loadGuides = async () => {
+      try {
+        const response = await fetch('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/allguides');
+        const data = await response.json();
+  
         // Translate guide names based on the selected language
         const translatedGuides = await Promise.all(
           data.map(async (guide) => ({
@@ -45,10 +47,16 @@ function GuideSelectionPage() {
               : await translateText(guide.name, selectedLanguage),
           }))
         );
+  
         setGuides(translatedGuides); // Store the translated guides in the state
-      })
-      .catch((error) => console.error('Error fetching guides:', error));
+      } catch (error) {
+        console.error('Error fetching or translating guides:', error);
+      }
+    };
+  
+    loadGuides();
   }, []);
+  
   
 
  // Handle the selection of a guide
