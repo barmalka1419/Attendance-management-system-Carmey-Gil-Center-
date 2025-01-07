@@ -75,7 +75,7 @@ function GuideSelectionPage() {
       </div>
     </div>
   );
-ד  
+
 }
 
 export default GuideSelectionPage;
