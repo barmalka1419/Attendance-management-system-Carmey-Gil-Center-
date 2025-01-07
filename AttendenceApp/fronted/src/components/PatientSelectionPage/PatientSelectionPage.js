@@ -37,11 +37,32 @@ function PatientSelectionPage() {
 
   // Fetch the list of patients for the selected guide
   useEffect(() => {
-    fetch(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/${guideId}/patients`)
-      .then((response) => response.json())
-      .then((data) => setPatients(data))
-      .catch((error) => console.error('Error fetching patients:', error));
+    const selectedLanguage = localStorage.getItem('selectedLanguage') || 'he';
+  
+    const loadPatients = async () => {
+      try {
+        const response = await fetch(`https://attendance-management-system-carmey-gil-eo10.onrender.com/api/guides/${guideId}/patients`);
+        const data = await response.json();
+  
+        // Translate patient names based on the selected language
+        const translatedPatients = await Promise.all(
+          data.map(async (patient) => ({
+            ...patient,
+            name: selectedLanguage === 'he'
+              ? patient.name
+              : await translateText(patient.name, selectedLanguage),
+          }))
+        );
+  
+        setPatients(translatedPatients); // Store the translated patients in the state
+      } catch (error) {
+        console.error('Error fetching or translating patients:', error);
+      }
+    };
+  
+    loadPatients();
   }, [guideId]);
+  
 
   // Handle selecting a patient
   const handlePatientSelect = async (patient) => {
