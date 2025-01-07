@@ -69,7 +69,7 @@ function GuideSelectionPage() {
                 className="guide-image"
                 onClick={() => handleGuideSelection(guide._id, guide.name)}
               />
-              <figcaption>{guide.name}</figcaption> {/* שם המדריך */}
+              <figcaption>{  guide.name}</figcaption> 
             </figure>
           ))}
       </div>
