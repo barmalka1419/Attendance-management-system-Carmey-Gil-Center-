@@ -59,7 +59,7 @@ function GuideSelectionPage() {
       </header>
   
       <h3>{translatedTexts.selectGuide}</h3>
-      <div className="guide-grid">
+      <div className="guide-grid1">
         {Array.isArray(guides) &&
           guides.map((guide) => (
             <div
@@ -70,7 +70,7 @@ function GuideSelectionPage() {
               <img
                 src={guide.imageUrl}
                 alt={guide.name}
-                className="guide-image"
+                className="guide-image1"
               />
               <p>{guide.name}</p> 
             </div>

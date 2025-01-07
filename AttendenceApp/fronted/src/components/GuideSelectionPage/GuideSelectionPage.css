@@ -205,12 +205,12 @@ h3 {
     font-size: 1.2em;
   }
 
-  .guide-grid {
+  .guide-grid1 {
     grid-template-columns: repeat(1, 1fr); 
     gap: 10px;
   }
 
-  .guide-image {
+  .guide-image1{
     width: 120px;
     height: 120px;
   }
