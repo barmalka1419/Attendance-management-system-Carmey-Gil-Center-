@@ -57,28 +57,24 @@ function GuideSelectionPage() {
       <header className="page-header">
         <h2>{translatedTexts.pageTitle}</h2>
       </header>
-  
+
       <h3>{translatedTexts.selectGuide}</h3>
       <div className="guide-grid">
         {Array.isArray(guides) &&
           guides.map((guide) => (
-            <div
+            
+            <img
               key={guide._id}
-              className="guide-card" // Wrapper for each guide
+              src={guide.imageUrl}
+              alt={guide.name}
+              className="guide-image"
               onClick={() => handleGuideSelection(guide._id, guide.name)}
-            >
-              <img
-                src={guide.imageUrl}
-                alt={guide.name}
-                className="guide-image"
-              />
-              <p>{guide.name}</p> {/* Display guide name under the image */}
-            </div>
+            />
+            
           ))}
       </div>
     </div>
   );
-  
 }
 
 export default GuideSelectionPage;
