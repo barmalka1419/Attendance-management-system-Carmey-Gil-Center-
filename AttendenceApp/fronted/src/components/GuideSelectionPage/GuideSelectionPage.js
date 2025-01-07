@@ -69,6 +69,7 @@ function GuideSelectionPage() {
               className="guide-image"
               onClick={() => handleGuideSelection(guide._id, guide.name)}
             />
+            
           ))}
       </div>
     </div>

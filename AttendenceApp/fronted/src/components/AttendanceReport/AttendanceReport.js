@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Keyboard from 'react-simple-keyboard';
-import 'react-simple-keyboard/build/css/index.css'; // For making HTTP requests.
+import React, { useState, useEffect } from 'react'; // React hooks for managing state and lifecycle.
+import Keyboard from 'react-simple-keyboard'; // Virtual keyboard component.
+import 'react-simple-keyboard/build/css/index.css'; 
 import './AttendanceReport.css';  // Importing styles for the component.
 import { translateText } from '../../utils/translation';  // Utility function for dynamic translations.
 
+
+// Main functional component for attendance report generation.
 function AttendanceReport() {
+    // State variables for managing input fields, loading, feedback messages, and translations.
   const [email, setEmail] = useState('');   // State for email input
   const [selectedMonth, setSelectedMonth] = useState(''); // State for selected month input
   const [message, setMessage] = useState(''); // State for feedback messages
