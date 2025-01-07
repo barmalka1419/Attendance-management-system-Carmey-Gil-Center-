@@ -12,7 +12,7 @@ body, html {
   background-size: cover;
 }
 
-.guide-selection-page {
+.guide-selection-page1 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +20,9 @@ body, html {
   background-color: #f5f5f5;
   min-height: 100vh;
 }
+
+
+
 
 .page-header {
   background-color: #1A73E8;

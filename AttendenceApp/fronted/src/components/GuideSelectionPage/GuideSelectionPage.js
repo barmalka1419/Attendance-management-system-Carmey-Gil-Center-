@@ -53,7 +53,7 @@ function GuideSelectionPage() {
   };
 
   return (
-    <div className="guide-selection-page">
+    <div className="guide-selection-page1">
       <header className="page-header">
         <h2>{translatedTexts.pageTitle}</h2>
       </header>
