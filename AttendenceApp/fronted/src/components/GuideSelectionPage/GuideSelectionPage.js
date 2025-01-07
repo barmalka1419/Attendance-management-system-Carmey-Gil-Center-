@@ -64,7 +64,7 @@ function GuideSelectionPage() {
           guides.map((guide) => (
             <div
               key={guide._id}
-              className="guide-card" 
+              className="guide-card1" 
               onClick={() => handleGuideSelection(guide._id, guide.name)}
             >
               <img
