@@ -57,23 +57,24 @@ router.post('/addNewGuide', async (req, res) => {
 // Endpoint to update guide details
 // URL: /api/guides/:id
 // Used in EditGuidePage
+// Endpoint to update guide details
+// URL: /api/guides/:id
+// Used in EditGuidePage
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params; // The MongoDB _id of the guide
     const { id: customId, name, email, password, imageUrl } = req.body; // New guide data
 
-    // Check if the provided custom ID already exists in another document
-    if (customId) {
-      const existingGuide = await Guide.findOne({ id: customId, _id: { $ne: id } });
-      if (existingGuide) {
-        return res.status(400).json({ message: 'The custom ID is already in use by another guide.' });
-      }
+    // Validate that the provided custom ID is not in use by another document
+    const existingGuide = await Guide.findOne({ id: customId, _id: { $ne: id } });
+    if (existingGuide) {
+      return res.status(400).json({ message: 'The custom ID is already in use by another guide.' });
     }
 
-    // Update the guide details in the database, including the custom ID
-    const updatedGuide = await Guide.findByIdAndUpdate(
-      id, // Find the document by MongoDB _id
-      { id: customId, name, email, password, imageUrl }, // Update the provided fields
+    // Find the guide by _id and update its fields
+    const updatedGuide = await Guide.findOneAndUpdate(
+      { _id: id },
+      { id: customId, name, email, password, imageUrl },
       { new: true, runValidators: true } // Return the updated document and validate input
     );
 
