@@ -71,30 +71,39 @@ router.delete('/:id', async (req, res) => {
 // Endpoint: /api/recipients/:id
 // Used in EditRecipientPage
 router.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const { name, imageUrl, groupId, guideId } = req.body;
-// Validate required fields
-  if (!name || !imageUrl || !groupId || !guideId) {
+  const { id } = req.params; // MongoDB _id of the recipient
+  const { id: customId, name, imageUrl, groupId, guideId } = req.body; // New recipient data
+
+  // Validate required fields
+  if (!customId || !name || !imageUrl || !groupId || !guideId) {
     return res.status(400).json({ message: 'נא למלא את כל השדות' });
   }
 
   try {
-    const updatedRecipient = await Patient.findByIdAndUpdate(
-      id,
-      { name, imageUrl, groupId, guideId },
-      { new: true }
+    // Check if the provided custom ID already exists in another document
+    const existingRecipient = await Patient.findOne({ id: customId, _id: { $ne: id } });
+    if (existingRecipient) {
+      return res.status(400).json({ message: 'תעודת הזהות האישית כבר קיימת במערכת עבור מקבל שירות אחר' });
+    }
+
+    // Update the recipient details in the database, including the custom ID
+    const updatedRecipient = await Patient.findOneAndUpdate(
+      { _id: id }, // Find by MongoDB _id
+      { id: customId, name, imageUrl, groupId, guideId }, // Update fields
+      { new: true, runValidators: true } // Return the updated document and validate input
     );
 
     if (!updatedRecipient) {
       return res.status(404).json({ message: 'מקבל השירות לא נמצא' });
     }
 
-    res.status(200).json(updatedRecipient);
+    res.status(200).json(updatedRecipient); // Return the updated recipient details
   } catch (error) {
     console.error('Error updating recipient:', error);
-    res.status(500).json({ message: 'שגיאה בעדכון מקבל השירות' });
+    res.status(500).json({ message: 'שגיאה בעדכון מקבל השירות', error: error.message });
   }
 });
+
 
 
 // Get attendance records of a specific patient
