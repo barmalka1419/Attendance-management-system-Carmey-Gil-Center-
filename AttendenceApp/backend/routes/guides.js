@@ -59,26 +59,35 @@ router.post('/addNewGuide', async (req, res) => {
 // Used in EditGuidePage
 router.put('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-    const { name, email, password, imageUrl } = req.body;
+    const { id } = req.params; // The MongoDB _id of the guide
+    const { id: customId, name, email, password, imageUrl } = req.body; // New guide data
 
-    // Update the guide details in the database
+    // Check if the provided custom ID already exists in another document
+    if (customId) {
+      const existingGuide = await Guide.findOne({ id: customId, _id: { $ne: id } });
+      if (existingGuide) {
+        return res.status(400).json({ message: 'The custom ID is already in use by another guide.' });
+      }
+    }
+
+    // Update the guide details in the database, including the custom ID
     const updatedGuide = await Guide.findByIdAndUpdate(
-      id,
-      { name, email, password, imageUrl },
-      { new: true, runValidators: true } //Return the updated guide and validate the input
+      id, // Find the document by MongoDB _id
+      { id: customId, name, email, password, imageUrl }, // Update the provided fields
+      { new: true, runValidators: true } // Return the updated document and validate input
     );
 
     if (!updatedGuide) {
-      return res.status(404).json({ message: 'המדריך לא נמצא' });
+      return res.status(404).json({ message: 'The guide was not found.' });
     }
 
-    res.status(200).json(updatedGuide);
+    res.status(200).json(updatedGuide); // Return the updated guide details
   } catch (error) {
     console.error('Error updating guide:', error);
-    res.status(500).json({ message: 'שגיאה בעדכון המדריך', error: error.message });
+    res.status(500).json({ message: 'An error occurred while updating the guide.', error: error.message });
   }
 });
+
 
 
 // Endpoint to fetch all patients associated with a specific guide
