@@ -1,0 +1,544 @@
+[{
+  "_id": {
+    "$oid": "6748982434c8f67746165178"
+  },
+  "id": "31333933111",
+  "name": "יוסף מזרחי",
+  "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIwSpkIuM_VMj90Wr3UFkSxea4PXgOK1-8wg&s",
+  "groupId": "gorup1",
+  "guideId": {
+    "$oid": "674dd2eabf0fc67da1825a07"
+  },
+  "attendance": [
+    {
+      "date": {
+        "$date": "2024-12-19T00:00:00.000Z"
+      },
+      "checkInTime": "11:19",
+      "checkOutTime": "21:06",
+      "score": 88,
+      "_id": {
+        "$oid": "6762a1afb6c9bd070c3bb4e1"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-22T00:00:00.000Z"
+      },
+      "checkInTime": "15:02",
+      "checkOutTime": "19:02",
+      "score": 56,
+      "_id": {
+        "$oid": "6767f1cca1976e883df6d76f"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-07T10:02:37.869Z"
+      },
+      "checkInTime": "10:02",
+      "checkOutTime": "10:02",
+      "score": 100,
+      "_id": {
+        "$oid": "677cfbbdd9a5ebbbfb2fd1fc"
+      }
+    }
+  ],
+  "__v": 41
+},
+{
+  "_id": {
+    "$oid": "6751fa3eb36d2fde8c5a93a3"
+  },
+  "id": "123456789",
+  "name": "אליאור מזרי",
+  "imageUrl": "https://scontent.ftlv21-1.fna.fbcdn.net/v/t1.6435-1/34397574_10214030270504966_200481887896993792_n.jpg?stp=c6.0.576.576a_dst-jpg_s480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_ohc=UU0Uo81ubyAQ7kNvgEuQCRN&_nc_zt=24&_nc_ht=scontent.ftlv21-1.fna&_nc_gid=AiTKN9k5idEOSBkjS2fWQDc&oh=00_AYAB8Ebz1f7UjRNOgnl68EzDEHNEPRa9MFzjxs4vJbtTQg&oe=67B74776",
+  "groupId": "group1",
+  "guideId": {
+    "$oid": "674dd2eabf0fc67da1825a07"
+  },
+  "attendance": [
+    {
+      "date": {
+        "$date": "2024-12-01T00:00:00.000Z"
+      },
+      "checkInTime": "07:03",
+      "checkOutTime": "16:06",
+      "_id": {
+        "$oid": "6751fa81b36d2fde8c5a93c2"
+      },
+      "score": 9
+    },
+    {
+      "date": {
+        "$date": "2024-12-02T00:00:00.000Z"
+      },
+      "checkInTime": "09:03",
+      "checkOutTime": "14:44",
+      "_id": {
+        "$oid": "6751fa8db36d2fde8c5a93c6"
+      },
+      "score": 8
+    },
+    {
+      "date": {
+        "$date": "2024-12-03T00:00:00.000Z"
+      },
+      "checkInTime": "10:11",
+      "checkOutTime": "18:55",
+      "score": 10,
+      "_id": {
+        "$oid": "6762a113b6c9bd070c3bb45b"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-04T00:00:00.000Z"
+      },
+      "checkInTime": "07:21",
+      "checkOutTime": "13:29",
+      "score": 6,
+      "_id": {
+        "$oid": "6785053ce8069b2181198db1"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-08T00:00:00.000Z"
+      },
+      "checkInTime": "08:30",
+      "checkOutTime": "13:33",
+      "score": 6,
+      "_id": {
+        "$oid": "6785319eb3fe4c1d7fe22607"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-10T00:00:00.000Z"
+      },
+      "checkInTime": "11:17",
+      "checkOutTime": "17:35",
+      "score": 10,
+      "_id": {
+        "$oid": "6785327cb3fe4c1d7fe22618"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-11T00:00:00.000Z"
+      },
+      "checkInTime": "09:41",
+      "checkOutTime": "13:34",
+      "score": 5,
+      "_id": {
+        "$oid": "678532a3b3fe4c1d7fe22622"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-12T00:00:00.000Z"
+      },
+      "checkInTime": "08:35",
+      "checkOutTime": "14:27",
+      "score": 6,
+      "_id": {
+        "$oid": "678532ceb3fe4c1d7fe2262d"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-15T00:00:00.000Z"
+      },
+      "checkInTime": "09:35",
+      "checkOutTime": "13:36",
+      "score": 9,
+      "_id": {
+        "$oid": "678532e9b3fe4c1d7fe22639"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-16T00:00:00.000Z"
+      },
+      "checkInTime": "09:00",
+      "checkOutTime": "15:52",
+      "score": 8,
+      "_id": {
+        "$oid": "6785330ab3fe4c1d7fe22646"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-17T00:00:00.000Z"
+      },
+      "checkInTime": "08:38",
+      "checkOutTime": "15:37",
+      "score": 6,
+      "_id": {
+        "$oid": "67853333b3fe4c1d7fe22661"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-18T00:00:00.000Z"
+      },
+      "checkInTime": "10:37",
+      "checkOutTime": "17:53",
+      "score": 7,
+      "_id": {
+        "$oid": "6785334cb3fe4c1d7fe22670"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-22T00:00:00.000Z"
+      },
+      "checkInTime": "07:38",
+      "checkOutTime": "16:44",
+      "score": 7,
+      "_id": {
+        "$oid": "67853373b3fe4c1d7fe22680"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-23T00:00:00.000Z"
+      },
+      "checkInTime": "08:29",
+      "checkOutTime": "17:40",
+      "score": 9,
+      "_id": {
+        "$oid": "6785338bb3fe4c1d7fe22691"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-24T00:00:00.000Z"
+      },
+      "checkInTime": "06:07",
+      "checkOutTime": "14:55",
+      "score": 5,
+      "_id": {
+        "$oid": "678533a7b3fe4c1d7fe226a3"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-25T00:00:00.000Z"
+      },
+      "checkInTime": "07:58",
+      "checkOutTime": "15:22",
+      "score": 9,
+      "_id": {
+        "$oid": "678533bcb3fe4c1d7fe226b6"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-14T16:22:56.719Z"
+      },
+      "checkInTime": "16:22",
+      "checkOutTime": "16:23",
+      "score": 10,
+      "_id": {
+        "$oid": "67868f602f19c5cda72abb19"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-21T18:40:03.941Z"
+      },
+      "checkInTime": "18:40",
+      "checkOutTime": null,
+      "score": null,
+      "_id": {
+        "$oid": "678fea04d7705c22847bfbbe"
+      }
+    }
+  ],
+  "__v": 28
+},
+{
+  "_id": {
+    "$oid": "6762b2f6f2967bd756b22001"
+  },
+  "id": "3148277853",
+  "name": "משה אוריאל",
+  "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCylvueGDIx8vvyKdlfkgcr8FDAwIeMJKjFg&s",
+  "groupId": "group1",
+  "guideId": {
+    "$oid": "674dd2eabf0fc67da1825a07"
+  },
+  "attendance": [
+    {
+      "date": {
+        "$date": "2024-12-01T00:00:00.000Z"
+      },
+      "checkInTime": "12:25",
+      "checkOutTime": "17:27",
+      "score": 1,
+      "_id": {
+        "$oid": "6762bf2fa83c86eff834b2ad"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-02T00:00:00.000Z"
+      },
+      "checkInTime": "11:48",
+      "checkOutTime": "15:24",
+      "score": 4,
+      "_id": {
+        "$oid": "6764080f39cdf11091f64bc1"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-03T00:00:00.000Z"
+      },
+      "checkInTime": "07:06",
+      "checkOutTime": "14:56",
+      "score": 6,
+      "_id": {
+        "$oid": "676aea1d5d9e1bf37beb5df8"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-04T00:00:00.000Z"
+      },
+      "checkInTime": "12:46",
+      "checkOutTime": "15:46",
+      "score": 6,
+      "_id": {
+        "$oid": "6778e76db0c81f1040317c71"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-05T00:00:00.000Z"
+      },
+      "checkInTime": "12:48",
+      "checkOutTime": "15:48",
+      "score": 7,
+      "_id": {
+        "$oid": "6778e7d9b0c81f1040317c9b"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-08T00:00:00.000Z"
+      },
+      "checkInTime": "08:51",
+      "checkOutTime": "15:51",
+      "score": 9,
+      "_id": {
+        "$oid": "6778e87db0c81f1040317cf2"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-09T00:00:00.000Z"
+      },
+      "checkInTime": "07:28",
+      "checkOutTime": "16:22",
+      "score": 4,
+      "_id": {
+        "$oid": "678534c4b3fe4c1d7fe22839"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-10T00:00:00.000Z"
+      },
+      "checkInTime": "06:58",
+      "checkOutTime": "14:07",
+      "score": 6,
+      "_id": {
+        "$oid": "678534ecb3fe4c1d7fe22843"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-12T00:00:00.000Z"
+      },
+      "checkInTime": "09:09",
+      "checkOutTime": "14:41",
+      "score": 5,
+      "_id": {
+        "$oid": "6785371eb3fe4c1d7fe22a95"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-15T00:00:00.000Z"
+      },
+      "checkInTime": "06:56",
+      "checkOutTime": "15:58",
+      "score": 10,
+      "_id": {
+        "$oid": "67853752b3fe4c1d7fe22aaf"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-16T00:00:00.000Z"
+      },
+      "checkInTime": "07:02",
+      "checkOutTime": "15:03",
+      "score": 8,
+      "_id": {
+        "$oid": "6785376db3fe4c1d7fe22abc"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-17T00:00:00.000Z"
+      },
+      "checkInTime": "10:25",
+      "checkOutTime": "16:07",
+      "score": 6,
+      "_id": {
+        "$oid": "67853787b3fe4c1d7fe22aca"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-18T00:00:00.000Z"
+      },
+      "checkInTime": "08:00",
+      "checkOutTime": "15:23",
+      "score": 8,
+      "_id": {
+        "$oid": "67853797b3fe4c1d7fe22ad9"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-19T00:00:00.000Z"
+      },
+      "checkInTime": "06:32",
+      "checkOutTime": "15:44",
+      "score": 7,
+      "_id": {
+        "$oid": "678537b7b3fe4c1d7fe22ae9"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-22T00:00:00.000Z"
+      },
+      "checkInTime": "08:25",
+      "checkOutTime": "14:36",
+      "score": 9,
+      "_id": {
+        "$oid": "678537d7b3fe4c1d7fe22afa"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-24T00:00:00.000Z"
+      },
+      "checkInTime": "07:20",
+      "checkOutTime": "12:20",
+      "score": 5,
+      "_id": {
+        "$oid": "678537f1b3fe4c1d7fe22b0c"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-15T09:07:57.483Z"
+      },
+      "checkInTime": "09:07",
+      "checkOutTime": null,
+      "score": 2,
+      "_id": {
+        "$oid": "67877aedcae063a50551d417"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-18T00:00:00.000Z"
+      },
+      "checkInTime": "07:47",
+      "checkOutTime": "11:49",
+      "score": null,
+      "_id": {
+        "$oid": "678b5c8bb6e5fdfc411a26d6"
+      }
+    }
+  ],
+  "__v": 20
+},
+{
+  "_id": {
+    "$oid": "6778f8d1579c2c49264aa545"
+  },
+  "id": "314764283",
+  "name": "אופיר שחף",
+  "imageUrl": "https://scontent.ftlv5-1.fna.fbcdn.net/v/t1.6435-9/41687783_1841417212639792_6937575890574376960_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ii99beZbgKQQ7kNvgE6rvhg&_nc_zt=23&_nc_ht=scontent.ftlv5-1.fna&_nc_gid=ApSWre-e2jabE1ESwxHBgbJ&oh=00_AYCoWugr3LcmZ8W2nevr_zmuLy0mtf6JGcms6rc3bNfbIQ&oe=67A06A36",
+  "groupId": "group1",
+  "guideId": {
+    "$oid": "674dd2eabf0fc67da1825a07"
+  },
+  "attendance": [
+    {
+      "date": {
+        "$date": "2025-01-04T00:00:00.000Z"
+      },
+      "checkInTime": "10:30",
+      "checkOutTime": "15:35",
+      "score": 8,
+      "_id": {
+        "$oid": "6778fdee579c2c49264aa632"
+      }
+    },
+    {
+      "date": {
+        "$date": "2024-12-30T00:00:00.000Z"
+      },
+      "checkInTime": "15:35",
+      "checkOutTime": null,
+      "score": null,
+      "_id": {
+        "$oid": "67828fc1ace78f60625246cd"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-13T11:57:34.405Z"
+      },
+      "checkInTime": "11:57",
+      "checkOutTime": "12:02",
+      "score": null,
+      "_id": {
+        "$oid": "6784ffaee8069b2181198a8f"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-20T19:08:15.317Z"
+      },
+      "checkInTime": "19:08",
+      "checkOutTime": null,
+      "score": null,
+      "_id": {
+        "$oid": "678e9f1f57f864ec6d308495"
+      }
+    },
+    {
+      "date": {
+        "$date": "2025-01-21T16:42:07.940Z"
+      },
+      "checkInTime": "16:42",
+      "checkOutTime": "17:47",
+      "score": null,
+      "_id": {
+        "$oid": "678fce60b26cf17ab1cadaf4"
+      }
+    }
+  ],
+  "__v": 10
+}]
