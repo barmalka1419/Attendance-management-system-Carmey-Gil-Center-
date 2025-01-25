@@ -63,8 +63,8 @@ function AttendanceManagement() {
         updateScore: await translateText('Update Score', selectedLanguage),
         cancelUpdate: await translateText('Cancel Update', selectedLanguage), // In case you want the "Cancel" button translated too
         ScoreUpdate: await translateText('Score update',selectedLanguage),
-        checkIn: await translateText('CheckIn:', selectedLanguage),
-        checkOut: await translateText('CheckOut:', selectedLanguage),
+        checkIn: await translateText('Check-In:', selectedLanguage),
+        checkOut: await translateText('Check-Out:', selectedLanguage),
         score: await translateText('Score', selectedLanguage),
         undefinedScore: await translateText("", selectedLanguage),
         errorMessage2: await translateText('Date and Check-In Time are required', selectedLanguage),
