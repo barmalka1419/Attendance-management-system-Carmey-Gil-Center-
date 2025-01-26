@@ -50,7 +50,7 @@ function PatientSelectionPage() {
             ...patient,
             name: selectedLanguage === 'he'
               ? patient.name
-              : await translateText(patient.name, selectedLanguage),
+              : await translateText("my name is: "+patient.name, selectedLanguage),
           }))
         );
   

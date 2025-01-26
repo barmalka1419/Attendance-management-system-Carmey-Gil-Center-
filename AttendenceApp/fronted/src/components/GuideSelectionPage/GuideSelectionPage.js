@@ -44,7 +44,7 @@ function GuideSelectionPage() {
             ...guide,
             name: selectedLanguage === 'he'
               ? guide.name
-              : await translateText(guide.name, selectedLanguage),
+              : await translateText("my name is: "+guide.name, selectedLanguage),
           }))
         );
   
