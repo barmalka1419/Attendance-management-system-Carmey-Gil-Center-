@@ -79,18 +79,16 @@ function PatientSelectionPage() {
   };
 
 // Send an email if a suspicious emotion is detected
-  const sendSuspiciousEmotionEmail = async (patient, emotion) => {
-    const patientNameInHebrew = await translateText(patient.name, 'he');
-    const emotionInHebrew = await translateText(emotion.label, 'he');
+  const sendSuspiciousEmotionEmail =(patient, emotion) => {
     fetch('https://attendance-management-system-carmey-gil-eo10.onrender.com/api/sendEmail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        patientName: patientNameInHebrew,
+        patientName: patient.name,
         patientId: patient.id,
-        emotion: emotionInHebrew,
+        emotion: patient.emotion,
       }),
     })
       .then((response) => {
