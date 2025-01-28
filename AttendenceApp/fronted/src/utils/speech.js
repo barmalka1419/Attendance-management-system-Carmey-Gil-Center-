@@ -54,8 +54,6 @@ export function speakText(text, language = 'he') {
     const voice = voices.find((v) => v.lang === utterance.lang && v.name.includes('Google'));
     if (voice) {
       utterance.voice = voice; // Assign the found voice to the utterance.
-    } else {
-      console.warn(`Voice for language ${language} not found. Using default voice.`); // Log a warning if no suitable voice is found.
     }
 
     synth.speak(utterance); // Speak the utterance using the selected voice and settings.
