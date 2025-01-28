@@ -123,10 +123,9 @@ function PatientSelectionPage() {
         return response.json();
       })
       .then((data) => {
-        console.log('Attendance updated:', data);
-
+   
         if (emotion.suspicious) {
-          console.log('Suspicious emotion detected, sending email...');
+        
           sendSuspiciousEmotionEmail(selectedPatient, emotion);
         }
 
