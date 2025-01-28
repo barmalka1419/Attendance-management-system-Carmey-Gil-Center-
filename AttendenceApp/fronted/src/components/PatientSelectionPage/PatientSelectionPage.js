@@ -88,7 +88,7 @@ function PatientSelectionPage() {
       body: JSON.stringify({
         patientName: patient.name,
         patientId: patient.id,
-        emotion: patient.emotion,
+        emotion: emotion,
       }),
     })
       .then((response) => {
