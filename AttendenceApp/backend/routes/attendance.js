@@ -42,10 +42,10 @@ router.post('/:patientId/attendance', async (req, res) => {
   const currentTime = new Date();
   // Helper function to format time as HH:mm
   const get24HourTime = (date) => {
-    const hours = date.getHours().toString().padStart(2, '0'); 
-    const minutes = date.getMinutes().toString().padStart(2, '0'); 
-    return `${hours}:${minutes}`;
+    const options = { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'Asia/Jerusalem' };
+    return new Intl.DateTimeFormat('en-GB', options).format(date);
   };
+  
 
   try {
     // Find patient by ID
